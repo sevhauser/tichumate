@@ -1,0 +1,34 @@
+.round {
+  display: flex;
+  flex-direction: column;
+}
+
+.round-app-bar {
+  @include mdc-elevation(4);
+  z-index: 4;
+  background-color: $blackDark;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.round-scores {
+  padding: 0 $paddingNormal;
+  display: grid;
+  &--double {
+    grid-template-columns: 1fr $paddingNormal 1fr;
+  }
+  &__spacer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $fsLarge;
+    font-family: $fontFamilySlab;
+    color: $whiteLight;
+  }
+}
+
+.round-inputs {
+  @extend .list;
+  flex-grow: 1;
+}

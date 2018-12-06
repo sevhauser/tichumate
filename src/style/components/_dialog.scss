@@ -1,0 +1,44 @@
+.tdialog {
+  display: flex;
+  flex-direction: column;
+  &__header {
+    color: $whiteLight;
+    span {
+      font-size: $fsTitle;
+    }
+    height: 4em;
+    padding: 0 1.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+  &__content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0.5em 1.5em;
+    text-align: center;
+    color: $whiteLight;
+    &.no-title {
+      padding-top: 1.5em;
+    }
+  }
+  &__actions {
+    flex-shrink: 0;
+    height: 3.25em;
+    padding: 0.5em 0.5em 0.5em 1.5em;
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.tdialog-content-item {
+  width: 100%;
+  margin: 0 0 1em 0;
+  padding: 0;
+  color: $whiteLight;
+  &:last-child {
+    margin-bottom: 0;
+  }
+}

@@ -1,0 +1,73 @@
+%app-bar {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  background-color: $blackDark;
+  height: $rowHeight;
+  z-index: 4;
+  flex-grow: 0;
+  flex-shrink: 0;
+}
+
+%app-bar-right,
+%app-bar-left {
+  display: flex;
+  justify-content: flex-start;
+  opacity: 0.6;
+}
+
+%app-bar-left {
+  flex-direction: row;
+  * {
+    margin-right: $paddingMedium;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+}
+%app-bar-right {
+  flex-direction: row-reverse;
+  * {
+    margin-left: $paddingNormal;
+    &:last-child {
+      margin-left: 0;
+    }
+  }
+}
+%app-bar-title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  h2 {
+    font-size: $fsTitle;
+    text-align: center;
+  }
+}
+.app-bar-row {
+  @extend %app-bar;
+  padding: $paddingNormal;
+  &__right {
+    @extend %app-bar-right;
+  }
+  &__left {
+    @extend %app-bar-left;
+  }
+  &__title {
+    @extend %app-bar-title;
+  }
+}
+
+.app-bar {
+  @extend %app-bar;
+  padding: $paddingNormal;
+  @include mdc-elevation(4);
+  &__left {
+    @extend %app-bar-left;
+  }
+  &__title {
+    @extend %app-bar-title;
+  }
+  &__right {
+    @extend %app-bar-right;
+  }
+}

@@ -1,0 +1,53 @@
+.games {
+  @extend .list;
+  flex-grow: 1;
+  .games-fab {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: $paddingNormal;
+  }
+}
+
+.game-entry {
+  display: flex;
+  flex-direction: column;
+}
+.game-entry-row {
+  display: grid;
+  &--double {
+    grid-template-columns: 1fr 1fr;
+  }
+  &--triple {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+.game-entry-score {
+  display: flex;
+  flex-direction: column;
+  &__team,
+  &__players {
+    flex-grow: 1;
+    min-height: 1.5em;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    font-size: $fsRegularSmall;
+    color: $whiteLight;
+  }
+  &__team {
+    align-items: flex-end;
+  }
+  &__score {
+    flex-grow: 0;
+    height: 2.25em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: $fontFamilySlab;
+    font-size: $fsMedium;
+  }
+  &__players {
+    align-items: flex-start;
+  }
+}

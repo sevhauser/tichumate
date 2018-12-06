@@ -1,0 +1,18 @@
+.ttabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  height: $rowHeightSmall;
+  width: 100%;
+}
+.ttab {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 $paddingNormal;
+  color: $whiteLight;
+  text-transform: uppercase;
+  transition: color 100ms ease-in-out;
+  &.active {
+    color: $white;
+  }
+}

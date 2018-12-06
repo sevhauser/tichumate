@@ -1,0 +1,283 @@
+%tinput-choice {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  &:first-child {
+    direction: rtl;
+  }
+  &__element {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $whiteLighter;
+  }
+}
+
+%tinput-field {
+  width: 100%;
+  min-height: $rowHeightSmallRem;
+  border-bottom: 0.075em solid $whiteLight;
+  background-color: $blackLight;
+  text-align: center;
+  color: $whiteLight;
+  ::placeholder {
+    color: $whiteLighter;
+  }
+  &:focus,
+  &:hover {
+    border-bottom-color: $white;
+    color: $white;
+  }
+}
+%tinput-radio {
+  width: 1.25em;
+  height: 1.25em;
+  position: relative;
+}
+
+%tinput-dropdown {
+  z-index: 8;
+  max-height: 9em;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: $blackLight;
+  &__content {
+    margin: 0.5em 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+  }
+  &__item {
+    padding: 0 $paddingNormal;
+    min-height: $rowHeightSmallRem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.tinput {
+  display:  flex;
+  flex-direction: column;
+  width: 100%;
+  padding: $paddingNormal;
+  border-bottom: 0.075em solid $blackLight;
+  &__title {
+    font-size: $fsButton;
+    color: $whiteLight;
+    text-transform: uppercase;
+    text-align: center;
+  }
+  &__content {
+    min-height: 3em;
+    padding-top: 1em;
+    &--col2 {
+      display: grid;
+      grid-column-gap: $paddingNormal;
+      grid-template-columns: 1fr 1fr;
+    }
+    &--rows {
+      display: flex;
+      flex-direction: column;
+      > * {
+        margin-top: $paddingNormal;
+        &:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+  }
+}
+
+.tinput-slider {
+  appearance: none;
+  background: transparent;
+  width: 100%;
+  padding-top: 0.2em;
+  &::-webkit-slider-thumb {
+    appearance: none;
+    border-radius: 50%;
+    background-color: $white;
+    width: 0.75em;
+    height: 0.75em;
+    margin-top: -0.3em;
+  }
+  &:focus {
+    outline: none;
+  }
+  &::-webkit-slider-runnable-track {
+    background-color: $whiteLighter;
+    margin: 0.375em 0;
+    height: 0.125em;
+  }
+}
+
+.tinput-win {
+  @extend %tinput-choice;
+  &__element {
+    @extend %tinput-choice__element;
+    &.active {
+      color: $yellow;
+    }
+  }
+}
+
+.tinput-tichu {
+  @extend %tinput-choice;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  &__element {
+    @extend %tinput-choice__element;
+    &.active-red {
+      color: $red;
+    }
+    &.active-green {
+      color: $green;
+    }
+  }
+}
+
+.tinput-number {
+  @extend %tinput-field;
+  font-family: $fontFamilySlab;
+  font-size: $fsMedium;
+  -moz-appearance:textfield;
+}
+
+.tinput-text {
+  @extend %tinput-field;
+  font-size: $fsRegular;
+  &::placeholder {
+    font-weight: 400;
+  }
+}
+
+.tinput-chip {
+  padding: 0 0.75em;
+  height: $rowHeightTiny;
+  border-radius: $rowHeightTiny / 2;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  &--input {
+    padding-right: 0;
+  }
+  &--emoji {
+    padding-left: 0.5em;
+    color: $white;
+  }
+  &__icon {
+    margin: 0 0.5em;
+  }
+  &__emoji {
+    margin-right: 0.5em;
+  }
+  &__title {
+    color: $blackLight;
+    font-size: $fsRegularSmall;
+  }
+}
+
+.tinput-chip-field {
+  @extend %tinput-field;
+  padding: 0.5em 0.5em 0 0.5em;
+  min-height: $rowHeightSmallRem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  .tinput-chip {
+    margin: 0 0.5em 0.5em 0;
+  }
+  &__input {
+    color: $white;
+    &.full-width {
+      width: 100%;
+      text-align: center;
+    }
+    flex-grow: 1;
+    height: 2em;
+    text-align: left;
+    background-color: transparent;
+    margin-bottom: 0.5em;
+  }
+}
+
+.tinput-chip-select {
+  @extend %tinput-dropdown;
+  &__content {
+    @extend %tinput-dropdown__content;
+  }
+}
+
+.tinput-chip-select-item {
+  @extend %tinput-dropdown__item;
+  &__icon {
+    padding-right: 0.5rem;
+    min-width: 2rem;
+    > svg {
+      
+    }
+  }
+  span {
+    color: $whiteLight;
+  }
+}
+
+.tinput-radio {
+  display: flex;
+  flex-direction: column;
+}
+
+.tinput-radio-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-bottom: 1em;
+  padding: 0 $rowHeightSmall;
+  position: relative;
+  input[type=radio] {
+    @extend %tinput-radio;
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: 1em;
+    &:checked + label {
+      color: $white;
+    }
+  }
+  label {
+    color: $whiteLight;
+  }
+  &__icon {
+    position: absolute;
+  }
+}
+
+.tinput-emoji {
+
+}
+
+.tinput-emoji-field {
+  @extend %tinput-field;
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tinput-emoji-select {
+  @extend %tinput-dropdown;
+  &__content {
+    @extend %tinput-dropdown__content;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+.tinput-emoji-select-item {
+  margin-bottom: 0.5em;
+  padding: 0.25em 0;
+  border-radius: 0.125em;
+  &.active {
+    color: $white;
+    background-color: $whiteLighter;
+  }
+}

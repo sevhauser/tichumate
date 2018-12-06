@@ -1,0 +1,9 @@
+.game-edit {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-edit-content {
+  @extend .list;
+  flex-grow: 1;
+}

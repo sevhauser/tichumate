@@ -1,0 +1,28 @@
+// Background color
+$bgColor: $black;
+
+html {
+  background-color: $bgColor;
+  box-sizing: border-box;
+}
+
+* {
+  user-select: none;
+  &, &:before, &:after {
+    box-sizing: inherit;
+  }
+}
+
+input,
+button {
+  -webkit-appearance: none;
+  border-style: none;
+  &:focus {
+    outline: none;
+  }
+}
+
+#app {
+  height: 100vh;
+  width: 100%;
+}

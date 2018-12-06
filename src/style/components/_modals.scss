@@ -1,0 +1,7 @@
+.v--modal {
+  @include mdc-elevation(24);
+  background-color: $blackDark;
+  &-overlay {
+    background-color: rgba(0,0,0,0.6);
+  }
+}

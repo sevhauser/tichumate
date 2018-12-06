@@ -1,0 +1,39 @@
+.game {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-app-bar {
+  @include mdc-elevation(4);
+  z-index: 4;
+  background-color: $blackDark;
+  display: flex;
+  flex-direction: column;
+}
+.game-scores {
+  padding: 0 $paddingNormal;
+  display: grid;
+  &--double {
+    grid-template-columns: 1fr $paddingNormal 1fr;
+  }
+  &__spacer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: $fsLarge;
+    font-family: $fontFamilySlab;
+    color: $whiteLight;
+  }
+}
+
+.game-rounds {
+  @extend .list;
+  flex-grow: 1;
+}
+
+.game-fab {
+  position: fixed;
+  bottom: $paddingNormal;
+  left: 50%;
+  transform: translateX(-50%);
+}

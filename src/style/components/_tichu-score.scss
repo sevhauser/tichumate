@@ -1,0 +1,26 @@
+.tichu-score {
+  display: flex;
+  flex-direction: column;
+  &__team,
+  &__players,
+  &__score {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  &__team,
+  &__players {
+    > span {
+      font-size: $fsRegular;
+      color: $whiteLight;
+    }
+    height: $rowHeightSmaller;
+  }
+  &__score {
+    line-height: 1.4em;
+    > span {
+      font-size: $fsLarge;
+      font-family: $fontFamilySlab;
+    }
+  }
+}

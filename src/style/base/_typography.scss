@@ -1,0 +1,21 @@
+$fontFamilyRegular: 'Roboto Condensed';
+$fontFamilySlab: 'Roboto Slab';
+
+$fsLarge: 2rem;
+$fsMedium: 1.5rem;
+$fsTitle: 1.250rem;
+$fsRegular: 1rem;
+$fsRegularSmall: 0.875rem;
+$fsButton: 0.938rem;
+$fsSmall: 0.75rem;
+
+* {
+  font-family: $fontFamilyRegular;
+  line-height: 1.1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  padding: 0;
+  margin: 0;
+  font-weight: 400;
+}

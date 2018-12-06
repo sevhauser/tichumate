@@ -1,0 +1,43 @@
+
+$blackDarkest: #0E0E0E;
+$blackDark: #1A1A1F;
+$black: #1C1C20;
+$blackLight: #212126;
+$blackLightest: #202026;
+
+$white: #FFFFFF;
+$whiteLight: rgba(255,255,255,0.6);
+$whiteLighter: rgba(255,255,255,0.4);
+
+$red: #FF3F34;
+$green: #36BD74;
+$yellow: #F2C109;
+
+$colors: (
+  black-darkest: $blackDarkest,
+  black-dark: $blackDark,
+  black: $black,
+  black-light: $blackLight,
+  white: $white,
+  white-light: $whiteLight,
+  white-lighter: $whiteLighter,
+  red: $red,
+  green: $green,
+  yellow: $yellow
+);
+
+@mixin color-modifiers($attribute: 'color') {
+  @each $name, $hex in $colors {
+    &-#{$name} {
+      #{$attribute}: $hex;
+    }
+  }
+}
+
+.txt {
+  @include color-modifiers('color');
+}
+
+.bg {
+  @include color-modifiers('background-color');
+}
