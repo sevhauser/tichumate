@@ -37,6 +37,10 @@ export default {
       type: String,
       default: 'dialog-confirm',
     },
+    attributes: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   methods: {
     cancel() {
@@ -44,7 +48,7 @@ export default {
     },
     confirm() {
       if (this.bus !== null) {
-        this.bus.$emit(`${this.identifier}-confirm`);
+        this.bus.$emit(`${this.identifier}-confirm`, this.attributes);
       }
       this.$emit('close');
     },

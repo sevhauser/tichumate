@@ -10,16 +10,27 @@ export class Round extends BaseEntity implements IRound {
   @dataProperty()
   public gameId: number = 0;
 
-  public game: Game;
+  @dataProperty()
+  public scoreDistribution: number = 0;
+
+  public game?: Game;
 
   public scores: Score[] = new Array<Score>();
 
-  constructor(game: Game) {
-    super();
+  public setGame(game: Game) {
     this.game = game;
-    if (game.id !== undefined) {
+    if (game.id) {
       this.gameId = game.id;
     }
+  }
+
+  public getTeamScore(teamId: number): number {
+    let result = 0;
+    const score = this.scores.find((el) => el.teamId === teamId);
+    if (score) {
+      result = score.points;
+    }
+    return result;
   }
 
   public setWin(index: number, value: number) {

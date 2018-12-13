@@ -10,12 +10,11 @@ export class Score extends BaseEntity implements IScore {
   public roundId: number = 0;
 
   @dataProperty()
-  public teamId: number;
+  public teamId: number = 0;
 
   @dataProperty()
   public penaltyPoints: number = 0;
 
-  @dataProperty()
   public calls: Call[] = new Array<Call>();
 
   @dataProperty()
@@ -30,12 +29,18 @@ export class Score extends BaseEntity implements IScore {
   @dataProperty()
   public otherDoubleWin: boolean = false;
 
+  constructor(teamId: number = 0) {
+    super();
+    this.teamId = teamId;
+    this.updatePoints();
+  }
+
   public set penalty(value: number) {
     this.penaltyPoints = value;
     this.updatePoints();
   }
 
-  public get penalty(): number{
+  public get penalty(): number {
     return this.penaltyPoints;
   }
 
@@ -68,9 +73,31 @@ export class Score extends BaseEntity implements IScore {
     this.updatePoints();
   }
 
-  constructor(teamId: number) {
-    super();
-    this.teamId = teamId;
+  public setCalls(calls: Call[]) {
+    this.calls = calls;
+    this.updatePoints();
+  }
+
+  public callState(tichuId: number) {
+    const call = this.calls.find((element) => element.tichuId === tichuId);
+    if (call) {
+      return call.success;
+    }
+    return 0;
+  }
+
+  public callChange(tichuId: number, value: number, tichuValue: number) {
+    const call = this.calls.find((element) => element.tichuId === tichuId);
+    if (call) {
+      call.success = value;
+    } else {
+      const newCall = new Call(tichuId, value, tichuValue);
+      this.calls.push(newCall);
+    }
+    this.updatePoints();
+  }
+
+  public afterHydration() {
     this.updatePoints();
   }
 }

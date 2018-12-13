@@ -17,49 +17,33 @@
       @touchmove="dragMoving" @touchend="dragFinish"
       ref="slide"
       :class="{ 'is-moving' : isMoving }">
-      <div class="tichu-round-score">
-        <div class="tichu-round-score__flags">
-          <span
-            v-for="(flag, index) in scores[0].flags"
-            :key="index"
-            :class="{
-              'txt-green' : flag.success,
-              'txt-red' : flag.fail
-            }">
-            {{ flag.letter }}
-          </span>
+      <template
+        v-for="(score, scoreIndex) in round.scores">
+        <div class="tichu-round-score"
+          :key="scoreIndex">
+          <div class="tichu-round-score__flags">
+            <span
+              v-for="(call, index) in score.calls"
+              :key="index"
+              :class="{
+                'txt-green' : call.success === 1,
+                'txt-red' : call.success === -1
+              }">
+              {{ tichuLetter(call.tichuId) }}
+            </span>
+          </div>
+          <div class="tichu-round-score__score">
+            {{ score.points }}
+          </div>
+          <div class="tichu-round-score__flags">
+            <span v-if="score.win" class="txt-yellow">
+              <template v-if="score.win === 1">W</template>
+              <template v-else-if="score.win === 2">DW</template>
+            </span>
+          </div>
         </div>
-        <div class="tichu-round-score__score">
-          {{ scores[0].score }}
-        </div>
-        <div class="tichu-round-score__flags">
-          <span v-if="scores[0].win" class="txt-yellow">
-            {{ scores[0].winLetter }}
-          </span>
-        </div>
-      </div>
-      <div class="tichu-round__number">{{ roundNumber }}</div>
-      <div class="tichu-round-score">
-        <div class="tichu-round-score__flags">
-          <span v-if="scores[1].win" class="txt-yellow">
-            {{ scores[1].winLetter }}
-          </span>
-        </div>
-        <div class="tichu-round-score__score">
-          {{ scores[1].score }}
-        </div>
-        <div class="tichu-round-score__flags">
-          <span
-            v-for="(flag, index) in scores[1].flags"
-            :key="index"
-            :class="{
-              'txt-green' : flag.success,
-              'txt-red' : flag.fail
-            }">
-            {{ flag.letter }}
-          </span>
-        </div>
-      </div>
+        <div :key="-scoreIndex -1" class="tichu-round__number" v-if="scoreIndex === 0">{{ roundNumber }}</div>
+      </template>
     </div>
   </div>
 </template>
@@ -68,6 +52,8 @@
 import TichuIcon from '@/components/icons/TichuIcon.vue';
 import IconDelete from '@/components/icons/IconDelete.vue';
 import IconEdit from '@/components/icons/IconEdit.vue';
+import { Round } from '@/db/entity';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -79,20 +65,29 @@ export default {
     };
   },
   props: {
-    id: {
-      type: Number,
+    round: {
+      type: Round,
       required: true,
     },
     roundNumber: {
       type: Number,
       required: true,
     },
-    scores: {
-      type: Array,
-      required: true,
-    },
+  },
+  computed: {
+    ...mapGetters({
+      tichu: 'tichus/tichu',
+    }),
   },
   methods: {
+    tichuLetter(tichuId) {
+      const tichu = this.tichu(tichuId);
+      if (tichu.lang !== '') {
+        return this.$t(tichu.lang).charAt(0);
+      } else {
+        return tichu.title.charAt(0);
+      }
+    },
     dragStart(e) {
       this.isMoving = true;
       this.x = (e.pageX || e.touches[0].pageX);
@@ -119,9 +114,9 @@ export default {
     dragFinish() {
       if (this.isMoving && this.isPassing) {
         if (this.xValue > 0) {
-          this.$emit('round-delete', this.id);
+          this.$emit('round-delete');
         } else {
-          this.$emit('round-edit', this.id);
+          this.$emit('round-edit');
         }
         this.$refs.slide.style.left = '0';
         this.isPassing = false;

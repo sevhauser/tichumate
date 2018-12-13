@@ -23,8 +23,8 @@ export abstract class BaseRepo<T extends BaseEntity> {
    * @param  {ITichuTable|undefined} data
    * @returns T - A hydrated instance
    */
-  protected newHydratedEntity(data: ITichuTable | undefined): T {
-    const entity: T = this.newEntity();
+  protected newHydratedEntity(data: ITichuTable | undefined, ...args: any): T {
+    const entity: T = this.newEntity(args);
     this.hydrateEntity(entity, data);
     return entity;
   }

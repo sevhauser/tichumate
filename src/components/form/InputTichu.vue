@@ -1,11 +1,11 @@
 <template>
   <div class="tinput-tichu">
     <div class="tinput-tichu__element"
-      :class="{ 'active-red' : failState }"
-      @click="emitFail()">FAIL</div>
+      :class="{ 'active-red' : state === -1 }"
+      @click="fail()">FAIL</div>
     <div class="tinput-tichu__element"
-      :class="{ 'active-green' : successState }"
-      @click="$emit('t-success', 1 - success)">SUCCESS</div>
+      :class="{ 'active-green' : state === 1 }"
+      @click="success()">SUCCESS</div>
   </div>
 </template>
 
@@ -13,40 +13,39 @@
 export default {
   name: 'InputTichu',
   data: () => ({
-    successState: false,
-    failState: false,
+    state: 0,
   }),
   props: {
-    success: {
-      type: Boolean,
-      default: false,
-    },
-    fail: {
-      type: Boolean,
-      default: false,
+    value: {
+      type: Number,
+      default: 0,
     },
   },
   methods: {
-    emitFail() {
-      this.failState = 1 - this.failState;
-      this.$emit('t-fail', this.failState);
+    fail() {
+      if (this.state !== -1) {
+        this.state = -1;
+      } else {
+        this.state = 0;
+      }
+      this.$emit('t-change', this.state);
     },
-    emitSuccess() {
-      this.successState = 1 - this.successState;
-      this.$emit('t-success', this.successState);
+    success() {
+      if (this.state !== 1) {
+        this.state = 1;
+      } else {
+        this.state = 0;
+      }
+      this.$emit('t-change', this.state);
     },
   },
   watch: {
-    success(newState) {
-      this.successState = newState;
-    },
-    fail(newState) {
-      this.failState = newState;
+    value(newValue) {
+      this.value = newValue;
     },
   },
   created() {
-    this.successState = this.success;
-    this.failState = this.fail;
+    this.state = this.value;
   },
 };
 </script>

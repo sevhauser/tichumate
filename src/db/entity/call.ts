@@ -20,10 +20,11 @@ export class Call extends BaseEntity implements ICall {
   @dataProperty()
   public value: number = 0;
 
-  constructor(tichuId: number, success: number) {
+  constructor(tichuId: number = 0, success: number = 0, value: number = 0) {
     super();
     this.tichuId = tichuId;
     this.success = success;
+    this.value = value;
   }
 
   public getValue(): number {

@@ -2,9 +2,7 @@ import { ActionTree } from 'vuex';
 import { RootState } from '../types';
 import { repos } from '@/db/repos';
 import { GamesState, GAMES_LOADED, ADD_GAME, UPDATE_GAME } from './types';
-import { Game } from '@/db/entity';
-import { __await } from 'tslib';
-
+import { Game, Round } from '@/db/entity';
 
 export const actions: ActionTree<GamesState, RootState> = {
   async newGame({}, type: string = 'classic'): Promise<Game> {
@@ -30,5 +28,39 @@ export const actions: ActionTree<GamesState, RootState> = {
     game.id = newGame.id;
     await commit(ADD_GAME, game);
     return game;
+  },
+  async recalculateTeamScores({ dispatch }, gameId: number): Promise<void> {
+    const game = await repos.games.updateTeamScores(gameId);
+    await dispatch('saveGame', game);
+  },
+  newRound({}, game: Game): Round {
+    const round = repos.rounds.newRound(game);
+    return repos.rounds.newRound(game);
+  },
+  async createRound({ dispatch }, round: Round) {
+    const newRound = await repos.rounds.create(round);
+    await dispatch('recalculateTeamScores', round.gameId);
+    return newRound;
+  },
+  async saveRound({ dispatch }, round: Round) {
+    if (round.id) {
+      return await repos.rounds.update(round);
+    }
+    const updatedRound = await dispatch('createRound', round);
+    await dispatch('recalculateTeamScores', round.gameId);
+    return updatedRound;
+  },
+  async getRound({}, roundId: number) {
+    return await repos.rounds.get(roundId);
+  },
+  async getRounds({}, gameId: number) {
+    return await repos.rounds.getAllFromGame(gameId);
+  },
+  async deleteRound({ dispatch }, roundId: number) {
+    const round = await repos.rounds.get(roundId);
+    if (round.id) {
+      await repos.rounds.delete(roundId);
+      await dispatch('recalculateTeamScores', round.gameId);
+    }
   },
 };

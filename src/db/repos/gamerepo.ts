@@ -60,4 +60,23 @@ export class GameRepo extends BaseRepo<Game> {
     }
     return await super.create(game);
   }
+
+  public async delete(gameId: number): Promise<void> {
+    await repos.rounds.deleteFromGame(gameId);
+    await super.delete(gameId);
+  }
+
+  public async updateTeamScores(gameId: number): Promise<Game> {
+    const game = await this.get(gameId);
+    const rounds = await repos.rounds.getAllFromGame(gameId);
+    for (const team of game.teams) {
+      team.score = 0;
+      for (const round of rounds) {
+        if (team.id) {
+          team.score += round.getTeamScore(team.id);
+        }
+      }
+    }
+    return await this.update(game);
+  }
 }

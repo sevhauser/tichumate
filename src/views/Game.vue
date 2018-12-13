@@ -26,11 +26,10 @@
       <TichuRound
         v-for="(round, index) in rounds"
         :key="round.id"
-        :id="round.id"
         :roundNumber="(index + 1)"
-        :scores="round.scores"
-        @round-delete="deleteRound"
-        @round-edit="editRound"
+        :round="round"
+        @round-delete="deleteRound(round.id)"
+        @round-edit="editRound(round.id)"
       />
     </div>
     <TFab class="game-fab bg-green" @click="newRound">
@@ -85,40 +84,39 @@ export default {
     deleteRound(roundId) {
       this.$modal.show(
         DialogConfirm,
-        { content: 'Do you want to delete this round?' },
+        {
+          bus: EventBus,
+          identifier: 'gameedit-delete-round',
+          attributes: { roundId },
+          content: 'Do you want to delete this round?',
+        },
         { width: '280', height: 'auto' },
       );
     },
     editRound(roundId) {
       this.$router.push(`/game/${this.gameId}/round/${roundId}`);
     },
-    editTeam(teamNumber) {
-      const teamName = teamNumber === 1 ? this.team1.name : this.team2.name;
-      this.$modal.show(
-        DialogText,
-        { value: teamName, identifier: `team-name-${teamNumber}`, bus: EventBus },
-        { width: '280', height: 'auto' },
-      );
-    },
     editGame() {
       this.$router.push(`/game/${this.gameId}/edit`);
     },
-    handleSaveTeam(teamNumber, value) {
-      this[`team${teamNumber}`].name = value;
+    handleDeleteRound(roundId) {
+      this.$store.dispatch('games/deleteRound', roundId).then(() => {
+        const index = this.rounds.findIndex((el) => el.id === roundId);
+        if (index >= 0) {
+          this.rounds.splice(index, 1);
+        }
+      });
     },
     async loadRounds() {
-      this.rounds = this.$store.dispatch('rounds/getRounds', this.gameId);
+      this.rounds = await this.$store.dispatch('games/getRounds', this.gameId);
     },
   },
   created() {
     this.loadRounds().then(() => {
       this.loaded = true;
     });
-    EventBus.$on('team-name-1-save', (msg) => {
-      this.handleSaveTeam(1, msg);
-    });
-    EventBus.$on('team-name-2-save', (msg) => {
-      this.handleSaveTeam(2, msg);
+    EventBus.$on('gameedit-delete-round-confirm', (msg) => {
+      this.handleDeleteRound(msg.roundId);
     });
   },
   components: {

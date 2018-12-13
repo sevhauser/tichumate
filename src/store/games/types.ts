@@ -1,4 +1,4 @@
-import { Game } from '@/db/entity';
+import { Game, Round } from '@/db/entity';
 
 export const GAMES_LOADED = 'GAMES_LOADED';
 export const ADD_GAME = 'ADD_GAME';

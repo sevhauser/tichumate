@@ -10,7 +10,23 @@ export const actions: ActionTree<RoundsState, RootState> = {
     const round = repos.rounds.newRound(game);
     return repos.rounds.newRound(game);
   },
+  async createRound({}, round: Round) {
+    const newRound = await repos.rounds.create(round);
+    return newRound;
+  },
+  async saveRound({ dispatch }, round: Round) {
+    if (round.id) {
+      return await repos.rounds.update(round);
+    }
+    return await dispatch('createRound', round);
+  },
+  async getRound({}, roundId: number) {
+    return await repos.rounds.get(roundId);
+  },
   async getRounds({}, gameId: number) {
     return await repos.rounds.getAllFromGame(gameId);
+  },
+  async deleteRound({}, roundId: number) {
+    return await repos.rounds.delete(roundId);
   },
 };

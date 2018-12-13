@@ -5,7 +5,6 @@ import { players } from './players';
 import { rules } from './rules';
 import { tichus } from './tichus';
 import { games } from './games';
-import { rounds } from './rounds';
 
 Vue.use(Vuex);
 
@@ -26,7 +25,6 @@ const store: StoreOptions<RootState> = {
         rules,
         tichus,
         games,
-        rounds,
     },
 };
 

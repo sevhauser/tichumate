@@ -97,7 +97,7 @@ export default {
         name: playerName,
         bus: EventBus,
         closeOnSave: true,
-        identified: 'gameedit-player-dialog',
+        identifier: 'gameedit-player-dialog',
         attributes: { teamId },
       }, {
         width: '280',

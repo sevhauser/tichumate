@@ -43,8 +43,12 @@
             :key="tichu.id"
             :title="tichu.lang ? $t(tichu.lang) : tichu.title"
             wrapContent="col2">
-          <InputTichu/>
-          <InputTichu/>
+          <InputTichu
+            :value="round.scores[0].callState(tichu.id)"
+            @t-change="callChange(0, tichu.id, $event)"/>
+          <InputTichu
+            :value="round.scores[1].callState(tichu.id)"
+            @t-change="callChange(1, tichu.id, $event)"/>
         </InputWrapper>
         <InputWrapper title="Additional Points"
           wrapContent="col2">
@@ -66,7 +70,7 @@ import InputNumber from '@/components/form/InputNumber.vue';
 import TichuIcon from '@/components/icons/TichuIcon.vue';
 import IconCancel from '@/components/icons/IconCancel.vue';
 import IconConfirm from '@/components/icons/IconConfirm.vue';
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 
 export default {
   name: 'Round',
@@ -94,6 +98,9 @@ export default {
     ...mapState({
       tichus: (state) => state.tichus.tichus,
     }),
+    ...mapGetters({
+      tichu: 'tichus/tichu',
+    }),
   },
   watch: {
     scoreDistribution(newVal) {
@@ -104,15 +111,40 @@ export default {
     cancelEdit() {
       this.$router.replace(`/game/${this.gameId}`);
     },
+    back() {
+      this.$router.replace(`/game/${this.gameId}`);
+    },
     winChanged(index, value) {
       this.round.setWin(index, value);
     },
-    saveRound() {},
+    callChange(index, tichuId, value) {
+      const tichu = this.tichu(tichuId);
+      this.round.scores[index].callChange(tichuId, value, tichu.value);
+    },
+    saveRound() {
+      this.save().then(() => {
+        this.back();
+      });
+    },
+    async save() {
+      if (this.roundId === 0) {
+        await this.$store.dispatch('games/createRound', this.round);
+      } else {
+        await this.$store.dispatch('games/saveRound', this.round);
+      }
+      await this.$store.dispatch('games/recalculateTeamScores', this.gameId);
+    },
     async init() {
       this.game = await this.$store.dispatch('games/getGame', this.gameId);
-      this.round = await this.$store.dispatch('rounds/newRound', this.game);
+      if (this.roundId === 0) {
+        this.round = await this.$store.dispatch('games/newRound', this.game);
+      } else {
+        this.round = await this.$store.dispatch('games/getRound', this.roundId);
+      }
+      this.scoreDistribution = this.round.scoreDistribution;
     },
     setCardScores(distribution) {
+      this.round.scoreDistribution = distribution;
       this.round.scores[0].setCardPoints(50 - distribution);
       this.round.scores[1].setCardPoints(50 + distribution);
     },
