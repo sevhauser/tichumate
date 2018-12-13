@@ -4,6 +4,9 @@ import { Team } from './team';
 import { Round } from './round';
 import { Game } from './game';
 import { Rule } from './rule';
+import { Tichu } from './tichu';
+import { Call } from './call';
+import { Score } from './score';
 
 export {
   BaseEntity,
@@ -12,4 +15,7 @@ export {
   Round,
   Game,
   Rule,
+  Tichu,
+  Call,
+  Score,
 };

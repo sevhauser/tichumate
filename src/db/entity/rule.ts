@@ -3,6 +3,9 @@ import { IRule } from '../tichudb';
 
 export class Rule extends BaseEntity implements IRule {
   @dataProperty()
+  public id?: number;
+
+  @dataProperty()
   public key: string = '';
 
   @dataProperty()

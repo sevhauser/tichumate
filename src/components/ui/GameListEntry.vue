@@ -1,16 +1,19 @@
 <template>
-  <div class="list-entry" @click="loadGame(1)">
+  <div class="list-entry" @click="$emit('click')">
     <div class="list-entry__content game-entry">
-      <div class="game-entry-row game-entry-row--double">
-        <div class="game-entry-score">
-          <div class="game-entry-score__team">Team 1</div>
-          <div class="game-entry-score__score">500</div>
-          <div class="game-entry-score__players">Alice, Bob</div>
-        </div>
-        <div class="game-entry-score">
-          <div class="game-entry-score__team">Team 2</div>
-          <div class="game-entry-score__score txt-yellow">500</div>
-          <div class="game-entry-score__players">Clyde, Debbie</div>
+      <div class="game-entry-row game-entry-row--double" v-if="game.type === 'classic'">
+        <div class="game-entry-score"
+          v-for="team in game.teams"
+          :key="team.id">
+          <div class="game-entry-score__team">{{ team.name }}</div>
+          <div
+            class="game-entry-score__score"
+            :class="{ 'txt-yellow': team.win }">
+            {{ team.score }}
+          </div>
+          <div class="game-entry-score__players">
+            {{ playerNames(team.playerIds) }}
+          </div>
         </div>
       </div>
     </div>
@@ -18,12 +21,30 @@
 </template>
 
 <script>
+import { Game } from '@/db/entity';
+import { mapGetters } from 'vuex';
+
 export default {
   name: 'GameListEntry',
   props: {
     game: {
-      type: Object,
+      type: Game,
       required: true,
+    },
+  },
+  computed: {
+    ...mapGetters('players', [
+      'player',
+    ]),
+  },
+  methods: {
+    playerNames(playerIds) {
+      return playerIds.reduce((result, playerId) => {
+        if (result.length !== 0) {
+          return result + `, ${this.player(playerId).name}`;
+        }
+        return this.player(playerId).name;
+      }, '');
     },
   },
 };

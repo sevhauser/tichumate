@@ -14,22 +14,15 @@
      </AppBarRow>
      <div class="game-scores game-scores--double">
         <TichuScore
-        @clickteam="editTeam(1)"
-        :teamName="team1.name"
-        score="500"
-        players="Alice, Bob"
-        state="winner"
+        :team="game.teams[0]"
         />
         <div class="game-scores__spacer">:</div>
         <TichuScore
-        @clickteam="editTeam(2)"
-        :teamName="team2.name"
-        score="500"
-        players="Clyde, Debbie"
+        :team="game.teams[1]"
        />
      </div>
     </div>
-    <div class="game-rounds">
+    <div class="game-rounds" v-if="loaded">
       <TichuRound
         v-for="(round, index) in rounds"
         :key="round.id"
@@ -59,73 +52,27 @@ import TFab from '@/components/ui/TFab.vue';
 import DialogText from '@/components/dialog/DialogText.vue';
 import DialogConfirm from '@/components/dialog/DialogConfirm.vue';
 import EventBus from '@/EventBus';
+import { mapGetters } from 'vuex';
+import { repos } from '@/db/repos';
 
 export default {
   name: 'Game',
-  data() {
-    return {
-      team1: {
-        name: 'Team 1',
-      },
-      team2: {
-        name: 'Team 2',
-      },
-      rounds: [
-        {
-          id: 1,
-          scores: [
-            {
-              score: -50,
-              win: false,
-              winLetter: '',
-              flags: [
-                {
-                  success: false,
-                  fail: true,
-                  letter: 'T',
-                }, {
-                  success: true,
-                  fail: false,
-                  letter: 'T',
-                },
-              ],
-            }, {
-              score: 50,
-              win: true,
-              winLetter: 'W',
-              flags: [
-                {
-                  success: true,
-                  fail: false,
-                  letter: 'T',
-                },
-              ],
-            },
-          ],
-        },
-        {
-          id: 2,
-          scores: [
-            {
-              score: 50,
-              win: true,
-              winLetter: 'W',
-              flags: [],
-            }, {
-              score: 50,
-              win: false,
-              winLetter: '',
-              flags: [],
-            },
-          ],
-        },
-      ],
-    };
-  },
+  data: () => ({
+    loaded: false,
+    rounds: [],
+  }),
   props: {
     gameId: {
       type: Number,
-      default: 0,
+      required: true,
+    },
+  },
+  computed: {
+    ...mapGetters({
+      currentGame: 'games/game',
+    }),
+    game() {
+      return this.currentGame(this.gameId);
     },
   },
   methods: {
@@ -133,7 +80,7 @@ export default {
       this.$router.replace('/games');
     },
     newRound() {
-      this.$router.push(`/game/${this.gameId}/round/0?teamIds=1,2`);
+      this.$router.push(`/game/${this.gameId}/round/0`);
     },
     deleteRound(roundId) {
       this.$modal.show(
@@ -159,8 +106,14 @@ export default {
     handleSaveTeam(teamNumber, value) {
       this[`team${teamNumber}`].name = value;
     },
+    async loadRounds() {
+      this.rounds = this.$store.dispatch('rounds/getRounds', this.gameId);
+    },
   },
   created() {
+    this.loadRounds().then(() => {
+      this.loaded = true;
+    });
     EventBus.$on('team-name-1-save', (msg) => {
       this.handleSaveTeam(1, msg);
     });

@@ -30,18 +30,43 @@ export function getDataProperties(origin: { [index: string]: any }): ITichuTable
 }
 
 export class BaseEntity implements ITichuTable {
-  @dataProperty()
   public id?: number;
 
+  /**
+   * Hydrates the objects {@link dataProperty} properties. Here, {@link BaseEntity#afterHydration} is called after the
+   * properties have been populated.
+   * @param  {ITichuTable} data
+   */
   public hydrate(data: ITichuTable) {
     const properties: string[] = Reflect.getMetadata(metadataKey, this);
     const values: { [index: string]: any } = {};
     properties.forEach((key) => { values[key] = data[key]; });
     Object.assign(this, values);
+    this.afterHydration();
   }
 
-  public toData(): ITichuTable {
+  /**
+   * Extracts {@link dataProperty} properties. Here, {@link BaseEntity#beforeExtraction} is called before the data is
+   * extracted.
+   * @returns ITichuTable
+   */
+  public extractData(): ITichuTable {
+    this.beforeExtraction();
     const data: ITichuTable = getDataProperties(this);
     return data;
   }
+
+  /**
+   * Is called after {@link BaseEntity#hydrate} is completed.
+   * Here, you can set up properties that are not a {@link dataProperty}
+   * @returns void
+   */
+  protected afterHydration(): void {}
+
+  /**
+   * Is called before {@link BaseEntity#extractData} is called.
+   * Here, you can make changes to {@link dataProperty} properties before they are saved - if needed.
+   * @returns void
+   */
+  protected beforeExtraction(): void {}
 }

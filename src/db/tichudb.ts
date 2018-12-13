@@ -65,11 +65,12 @@ export class TichuDB extends Dexie {
 }
 
 export interface ITichuTable {
-  [key: string]: any;
   id?: number;
+  [key: string]: any;
 }
 
 export interface ITichu extends ITichuTable {
+  id?: number;
   title: string;
   lang: string;
   value: number;
@@ -77,36 +78,44 @@ export interface ITichu extends ITichuTable {
 }
 
 export interface IPlayer extends ITichuTable {
+  id?: number;
   name: string;
   emoji: string;
 }
 
 export interface IRule extends ITichuTable {
+  id?: number;
   key: string;
   lang: string;
   title: string;
 }
 
 export interface ITeam extends ITichuTable {
+  id?: number;
   playerIds: number[];
+  score: number;
 }
 
 export interface IGame extends ITichuTable {
+  id?: number;
   teamIds: number[];
 }
 
 export interface IRound extends ITichuTable {
+  id?: number;
   gameId: number;
 }
 
 export interface IScore extends ITichuTable {
+  id?: number;
   roundId: number;
   teamId: number;
 }
 
 export interface ICall extends ITichuTable {
+  id?: number;
   scoreId: number;
   playerId?: number;
   tichuId: number;
-  success: boolean;
+  success: number;
 }

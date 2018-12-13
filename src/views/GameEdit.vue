@@ -7,14 +7,14 @@
     </AppBar>
     <div class="game-edit-content">
       <InputWrapper
-        v-for="(team, index) in teams"
+        v-for="(team, index) in game.teams"
         :key="index"
         wrapContent="rows"
         :title="`Team ${ index + 1}`">
         <InputText
           v-model="team.name"
           label="Team Name"/>
-        <InputChipSelect
+        <InputChipPlayerSelect
           label="Players"
           :allowCreate="true"
           v-model="team.playerIds"
@@ -38,7 +38,7 @@
 import AppBar from '@/components/ui/AppBar.vue';
 import InputWrapper from '@/components/form/InputWrapper.vue';
 import InputText from '@/components/form/InputText.vue';
-import InputChipSelect from '@/components/form/InputChipSelect.vue';
+import InputChipPlayerSelect from '@/components/form/InputChipPlayerSelect.vue';
 import InputRadio from '@/components/form/InputRadio.vue';
 import InputNumber from '@/components/form/InputNumber.vue';
 import TichuIcon from '@/components/icons/TichuIcon.vue';
@@ -47,8 +47,7 @@ import IconConfirm from '@/components/icons/IconConfirm.vue';
 import EditPlayerDialog from '@/components/dialog/EditPlayerDialog.vue';
 import EventBus from '@/EventBus';
 import { Game, Team, Player } from '@/db/entity';
-import { repos } from '@/db/repos';
-import { TichuDB, models } from '@/db';
+import { mapGetters, mapState, mapActions } from 'vuex';
 
 export default {
   name: 'GameEdit',
@@ -56,8 +55,6 @@ export default {
     loaded: false,
     game: null,
     teams: [],
-    rules: [],
-    players: [],
   }),
   props: {
     gameId: {
@@ -71,6 +68,12 @@ export default {
     },
   },
   computed: {
+    ...mapState({
+      rules: (state) => state.rules.rules,
+    }),
+    ...mapGetters({
+      players: 'players/players',
+    }),
     viewTitle() {
       return this.gameId === 0 ? 'New Game' : 'Edit Game';
     },
@@ -93,6 +96,8 @@ export default {
         title: 'Create Player',
         name: playerName,
         bus: EventBus,
+        closeOnSave: true,
+        identified: 'gameedit-player-dialog',
         attributes: { teamId },
       }, {
         width: '280',
@@ -100,65 +105,30 @@ export default {
       });
     },
     handleSavePlayer(event) {
-      const player = new Player();
-      player.name = event.result.name;
-      player.emoji = event.result.emoji;
-      this.newPlayer(player).then((newPlayer) => {
-        this.teams[event.attributes.teamId].playerIds.push(newPlayer.id);
-        EventBus.$emit('player-dialog-close');
-      });
-    },
-    async newPlayer(player) {
-      const newPlayer = await repos.players.create(player);
-      this.players.push(newPlayer);
-      return newPlayer;
+      this.game.teams[event.attributes.teamId].playerIds.push(event.result);
     },
     async saveGame() {
-      if (this.gameId === 0) {
-        for (const team of this.teams) {
-          const newTeam = await repos.teams.create(team);
-          this.game.teamIds.push(newTeam.id);
-        }
-        const game = await repos.games.create(this.game);
-        return game.id;
-      }
-      await repos.games.update(this.game);
-      for (const team of this.teams) {
-        await repos.teams.update(team);
+      if  (this.gameId === 0) {
+        this.game = await this.$store.dispatch('games/createGame', this.game);
+      } else {
+        this.game = await this.$store.dispatch('games/saveGame', this.game);
       }
       return this.game.id;
-    },
-    async fetchPlayers() {
-      this.players = await repos.players.getAll();
-    },
-    async fetchRules() {
-      this.rules = await repos.rules.getAll();
     },
     async fetchGame() {
       const game = await repos.games.get(this.gameId);
       this.game = game;
-      for (const team of game.teamIds) {
-        await this.fetchTeam(team);
-      }
-    },
-    async fetchTeam(teamId) {
-      const team = await repos.teams.get(teamId);
-      this.teams.push(team);
     },
     async init() {
-      await this.fetchPlayers();
-      await this.fetchRules();
       if (this.gameId === 0) {
-        this.game = new Game();
-        this.teams.push(new Team());
-        this.teams.push(new Team());
+        this.game = await this.$store.dispatch('games/newGame');
       } else {
-        await this.fetchGame();
+        this.game = await this.$store.dispatch('games/getGame', this.gameId);
       }
     },
   },
   created() {
-    EventBus.$on('player-dialog-saved', this.handleSavePlayer);
+    EventBus.$on('gameedit-player-dialog-saved', this.handleSavePlayer);
     this.init().then(() => {
       this.loaded = true;
     });
@@ -170,7 +140,7 @@ export default {
     IconConfirm,
     InputWrapper,
     InputText,
-    InputChipSelect,
+    InputChipPlayerSelect,
     InputRadio,
     InputNumber,
     EditPlayerDialog,

@@ -1,0 +1,11 @@
+.players {
+  @extend .list;
+  flex-grow: 1;
+  padding-bottom: 5em;
+  .players-fab {
+    position: fixed;
+    left: 50%;
+    transform: translate(-50%);
+    bottom: $paddingNormal;
+  }
+}

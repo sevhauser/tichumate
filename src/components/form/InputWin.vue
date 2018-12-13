@@ -20,16 +20,16 @@ export default {
   methods: {
     win() {
       if (this.value === 2) {
-        this.$emit('input', 1);
+        this.$emit('changed', 1);
       } else {
-        this.$emit('input', 1 - this.value);
+        this.$emit('changed', 1 - this.value);
       }
     },
     doubleWin() {
       if (this.value === 2) {
-        this.$emit('input', 1);
+        this.$emit('changed', 1);
       } else {
-        this.$emit('input', 2);
+        this.$emit('changed', 2);
       }
     },
   },

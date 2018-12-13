@@ -19,16 +19,23 @@ import TDialog from '@/components/dialog/TDialog.vue';
 import TButton from '@/components/ui/TButton.vue';
 import InputText from '@/components/form/InputText.vue';
 import InputEmoji from '@/components/form/InputEmoji.vue';
+import { Player } from '@/db/entity';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'EditPlayerDialog',
   data: () => ({
     result: {
+      id: 0,
       name: '',
       emoji: '',
     },
   }),
   props: {
+    playerId: {
+      type: Number,
+      default: 0,
+    },
     title: {
       type: String,
       default: '',
@@ -58,14 +65,31 @@ export default {
       default: () => ({}),
     },
   },
+  computed: {
+    ...mapGetters({
+      player: 'players/player',
+    }),
+  },
   methods: {
     save() {
-      if (this.bus !== null) {
-        this.bus.$emit(`${this.identifier}-saved`, { result: this.result, attributes: this.attributes });
+      this.saveChanges().then((playerId) => {
+        if (this.bus !== null) {
+          this.bus.$emit(`${this.identifier}-saved`, { result: playerId, attributes: this.attributes });
+        }
+        if (this.closeOnSave) {
+          this.close();
+        }
+      });
+    },
+    async saveChanges() {
+      let playerId = this.playerId;
+      if (this.playerId === 0) {
+        const newPlayer = await this.$store.dispatch('players/createPlayer', this.result);
+        playerId = newPlayer.id;
+      } else {
+        await this.$store.dispatch('players/updatePlayer', this.result);
       }
-      if (this.closeOnSave) {
-        this.close();
-      }
+      return playerId;
     },
     cancel() {
       this.close();
@@ -73,14 +97,19 @@ export default {
     close() {
       this.$emit('close');
     },
+    loadPlayer() {
+      if (this.playerId !== 0) {
+        const player = this.player(this.playerId);
+        this.result = player;
+      } else {
+        this.result = new Player();
+        this.result.name = this.name;
+        this.result.emoji = this.emoji;
+      }
+    },
   },
   created() {
-    if (this.name !== '') {
-      this.result.name = this.name;
-    }
-    if (this.emoji !== '') {
-      this.result.emoji = this.emoji;
-    }
+    this.loadPlayer();
     this.bus.$on(`${this.identifier}-close`, this.close);
   },
   components: {

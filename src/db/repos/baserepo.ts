@@ -12,18 +12,33 @@ export abstract class BaseRepo<T extends BaseEntity> {
     this.table = table;
   }
 
-  public abstract newEntity(): T;
+  /**
+   * Returns a new instance of T.
+   * @returns T
+   */
+  public abstract newEntity(...arg: any[]): T;
 
+  /**
+   * Returns a new instance of T and hydrates it with the provided data.
+   * @param  {ITichuTable|undefined} data
+   * @returns T - A hydrated instance
+   */
   protected newHydratedEntity(data: ITichuTable | undefined): T {
     const entity: T = this.newEntity();
-    return this.hydrateEntity(entity, data);
+    this.hydrateEntity(entity, data);
+    return entity;
   }
 
-  public hydrateEntity(entity: T, data: ITichuTable | undefined): T {
+  /**
+   * Hydrates entity with the provided data.
+   * @param  {T} entity
+   * @param  {ITichuTable|undefined} data
+   * @returns void
+   */
+  public hydrateEntity(entity: T, data: ITichuTable | undefined): void {
     if (data !== undefined) {
       entity.hydrate(data);
     }
-    return entity;
   }
 
   public async get(id: number): Promise<T> {
@@ -40,9 +55,10 @@ export abstract class BaseRepo<T extends BaseEntity> {
     return result;
   }
 
-  public async update(element: T): Promise<number> {
-    const result: number = await this.table.put(element.toData());
-    return result;
+  public async update(element: T): Promise<T> {
+    const result: number = await this.table.put(element.extractData());
+    element.id = result;
+    return element;
   }
 
   public async delete(id: number): Promise<void> {
@@ -50,7 +66,7 @@ export abstract class BaseRepo<T extends BaseEntity> {
   }
 
   public async create(element: T): Promise<T> {
-    const id: number = await this.table.add(element.toData());
+    const id: number = await this.table.add(element.extractData());
     element.id = id;
     return element;
   }

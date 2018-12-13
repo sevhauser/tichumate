@@ -1,45 +1,17 @@
 <template>
   <div class="games">
-    <div class="list-subtitle">
-      29.04.1991
-    </div>
-    <div class="list-entry" @click="loadGame(1)">
-      <div class="list-entry__content game-entry">
-        <div class="game-entry-row game-entry-row--double">
-          <div class="game-entry-score">
-            <div class="game-entry-score__team">Team 1</div>
-            <div class="game-entry-score__score">500</div>
-            <div class="game-entry-score__players">Alice, Bob</div>
-          </div>
-          <div class="game-entry-score">
-            <div class="game-entry-score__team">Team 2</div>
-            <div class="game-entry-score__score txt-yellow">500</div>
-            <div class="game-entry-score__players">Clyde, Debbie</div>
-          </div>
-        </div>
+    <template v-for="(entry, index) in gamesList">
+      <GameListEntry
+        v-if="entry.type === 'entry'"
+        :game="entry.content"
+        :key="index"
+        @click="loadGame(entry.content.id)"/>
+      <div class="list-subtitle"
+        v-else
+        :key="index">
+        {{ entry.content }}
       </div>
-    </div>
-    <div class="list-entry">
-      <div class="list-entry__content game-entry">
-        <div class="game-entry-row game-entry-row--triple">
-          <div class="game-entry-score">
-            <div class="game-entry-score__team">Team 1</div>
-            <div class="game-entry-score__score">500</div>
-            <div class="game-entry-score__players">Alice, Bob</div>
-          </div>
-          <div class="game-entry-score">
-            <div class="game-entry-score__team">Team 2</div>
-            <div class="game-entry-score__score txt-yellow">500</div>
-            <div class="game-entry-score__players">Clyde, Debbie</div>
-          </div>
-          <div class="game-entry-score">
-            <div class="game-entry-score__team">Team 3</div>
-            <div class="game-entry-score__score txt-yellow">500</div>
-            <div class="game-entry-score__players">Clyde, Debbie</div>
-          </div>
-        </div>
-      </div>
-    </div>
+    </template>
     <TFabExtended
       @click="newGame"
       class="games-fab bg-green txt-black-dark">
@@ -50,14 +22,32 @@
 
 <script>
 import TFabExtended from '@/components/ui/TFabExtended.vue';
-import { db } from '@/db';
+import GameListEntry from '@/components/ui/GameListEntry.vue';
+import { mapGetters } from 'vuex';
+import { formatDate } from '@/helpers/datetime';
 
 export default {
   name: 'Games',
   data: () => ({
-    games: [],
     loaded: false,
   }),
+  computed: {
+    ...mapGetters('games', [
+        'games',
+    ]),
+    gamesList() {
+      const result = [];
+      let currentDate = 0;
+      for (const game of this.games) {
+        if (formatDate(game.date) !== currentDate) {
+          currentDate = formatDate(game.date);
+          result.push({ type: 'subheader', content: currentDate });
+        }
+        result.push({ type: 'entry', content: game });
+      }
+      return result;
+    },
+  },
   methods: {
     loadGame(id) {
       this.$router.push(`/game/${id}`);
@@ -65,9 +55,7 @@ export default {
     newGame() {
       this.$router.push('/game/new');
     },
-    async init() {
-      this.games = await db.games.toArray();
-    },
+    async init() {},
   },
   created() {
     this.init().then(() => {
@@ -76,6 +64,7 @@ export default {
   },
   components: {
     TFabExtended,
+    GameListEntry,
   },
 };
 </script>
