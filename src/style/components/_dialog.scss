@@ -1,6 +1,7 @@
 .tdialog {
   display: flex;
   flex-direction: column;
+  background-color: $blackDark;
   &__header {
     color: $whiteLight;
     span {
