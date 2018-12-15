@@ -30,8 +30,21 @@
 
 .game-stats-numbers-line {
   display: grid;
-  &__entry,
-  &__title {
+  &--header {
+    min-height: 2rem;
+    .game-stats-numbers-line__entry {
+      font-size: $fsSmall;
+    }
+  }
+  &--line {
+    min-height: 3rem;
+    .game-stats-numbers-line__entry {
+      border-top: 0.07rem solid rgba($white, 0.2);
+      height: $rowHeightSmallRem;
+      font-size: $fsRegularSmall;
+    }
+  }
+  &__entry {
     text-align: center;
     padding: 1rem;
     display: flex;
@@ -42,15 +55,6 @@
     &:first-child {
       border-left: none;
     }
-  }
-  &__title {
-    font-size: $fsSmall;
-    height: 2rem;
-  }
-  &__entry {
-    height: $rowHeightSmallRem;
-    border-top: 0.07rem solid rgba($white, 0.2);
-    font-size: $fsRegularSmall;
   }
 }
 

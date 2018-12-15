@@ -12,15 +12,15 @@
       <div class="list-subtitle game-stats-subheader">Numbers</div>
       <div class="game-stats-number game-stats-item"
         :class="[`game-stats-numbers--count${statistics.teamScores.length}`]">
-        <div class="game-stats-numbers-line">
-          <div class="game-stats-numbers-line__title"></div>
-          <div class="game-stats-numbers-line__title"
+        <div class="game-stats-numbers-line game-stats-numbers-line--header">
+          <div class="game-stats-numbers-line__entry"></div>
+          <div class="game-stats-numbers-line__entry"
             v-for="(stat, index) in statistics.teamScores"
             :key="index">
             {{ stat.teamName }}
           </div>
         </div>
-        <div class="game-stats-numbers-line"
+        <div class="game-stats-numbers-line game-stats-numbers-line--line"
           v-for="(entry, i) in numberLayout"
           :key="i">
           <div class="game-stats-numbers-line__entry">{{ entry.title }}</div>
