@@ -6,6 +6,7 @@ import Games from './views/Games.vue';
 import Customize from './views/Customize.vue';
 import Game from './views/Game.vue';
 import GameEdit from './views/GameEdit.vue';
+import GameStatistics from './views/GameStatistics.vue';
 import Round from './views/Round.vue';
 
 Vue.use(Router);
@@ -70,6 +71,15 @@ export default new Router({
         return props;
       },
       component: GameEdit,
+    }, {
+      path: '/game/:gameId/statistics',
+      name: 'Statistics',
+      props(route) {
+        const props: { [index: string]: any } = { ...route.params };
+        props.gameId = parseInt(props.gameId, 10);
+        return props;
+      },
+      component: GameStatistics,
     },
   ],
 });

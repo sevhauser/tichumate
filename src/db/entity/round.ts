@@ -24,9 +24,14 @@ export class Round extends BaseEntity implements IRound {
     }
   }
 
-  public getTeamScore(teamId: number): number {
+  public getTeamScore(teamId: number): Score | undefined {
+    const result = this.scores.find((el) => el.teamId === teamId);
+    return result;
+  }
+
+  public getTeamPoints(teamId: number): number {
     let result = 0;
-    const score = this.scores.find((el) => el.teamId === teamId);
+    const score = this.getTeamScore(teamId);
     if (score) {
       result = score.points;
     }

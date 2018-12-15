@@ -73,7 +73,7 @@ export class GameRepo extends BaseRepo<Game> {
       team.score = 0;
       for (const round of rounds) {
         if (team.id) {
-          team.score += round.getTeamScore(team.id);
+          team.score += round.getTeamPoints(team.id);
         }
       }
     }

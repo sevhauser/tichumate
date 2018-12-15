@@ -8,7 +8,7 @@
         <TichuIcon slot="right" @click="editGame">
           <IconOptions/>
         </TichuIcon>
-        <TichuIcon slot="right">
+        <TichuIcon slot="right" @click="loadStatistics">
           <IconStatistics/>
         </TichuIcon>
      </AppBarRow>
@@ -78,6 +78,12 @@ export default {
     goBack() {
       this.$router.replace('/games');
     },
+    editGame() {
+      this.$router.push(`/game/${this.gameId}/edit`);
+    },
+    loadStatistics() {
+      this.$router.push(`/game/${this.gameId}/statistics`);
+    },
     newRound() {
       this.$router.push(`/game/${this.gameId}/round/0`);
     },
@@ -95,9 +101,6 @@ export default {
     },
     editRound(roundId) {
       this.$router.push(`/game/${this.gameId}/round/${roundId}`);
-    },
-    editGame() {
-      this.$router.push(`/game/${this.gameId}/edit`);
     },
     handleDeleteRound(roundId) {
       this.$store.dispatch('games/deleteRound', roundId).then(() => {

@@ -1,0 +1,64 @@
+.game-stats {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-stats-contain {
+  @extend .list;
+  flex-grow: 1;
+}
+
+.game-stats-subheader {
+  text-transform: uppercase;
+  font-size: $fsButton;
+  color: $whiteLight;
+}
+
+.game-stats-item {
+  @extend .list-entry;
+}
+
+.game-score-chart {
+  background-color: $blackLight;
+  padding: $paddingNormal;
+}
+
+.game-stats-numbers {
+  display: flex;
+  flex-direction: column;
+}
+
+.game-stats-numbers-line {
+  display: grid;
+  &__entry,
+  &__title {
+    text-align: center;
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-left: 0.07rem solid rgba($white, 0.2);
+    color: $whiteLight;
+    &:first-child {
+      border-left: none;
+    }
+  }
+  &__title {
+    font-size: $fsSmall;
+    height: 2rem;
+  }
+  &__entry {
+    height: $rowHeightSmallRem;
+    border-top: 0.07rem solid rgba($white, 0.2);
+    font-size: $fsRegularSmall;
+  }
+}
+
+
+@for $i from 2 through 8 {
+  .game-stats-numbers--count#{$i} {
+    .game-stats-numbers-line {
+      grid-template-columns: repeat($i + 1, 1fr);
+    }
+  }
+}
