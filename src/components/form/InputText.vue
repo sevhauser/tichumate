@@ -3,6 +3,7 @@
     @input="$emit('input', $event.target.value)"
     :value="value"
     ref="input"
+    :maxlength="maxLength"
     :placeholder="label"
     class="tinput-text">
 </template>
@@ -17,6 +18,10 @@ export default {
     label: {
       type: String,
       default: '',
+    },
+    maxLength: {
+      type: Number,
+      default: 200,
     },
   },
 };

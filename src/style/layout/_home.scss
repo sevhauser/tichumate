@@ -35,6 +35,17 @@
   flex-grow: 0;
   flex-shrink: 0;
   &__top {
-    height: $rowHeight;
+    height: $rowHeightLargeRem;
+  }
+}
+
+.home-header {
+  position: relative;
+  &__logo {
+    position: absolute;
+    width: 8rem;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
 }

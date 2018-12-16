@@ -1,10 +1,11 @@
 import { ActionTree } from 'vuex';
 import { RootState } from '../types';
 import { repos } from '@/db/repos';
-import { GamesState, GAMES_LOADED, ADD_GAME, UPDATE_GAME } from './types';
+import { GamesState, GAMES_LOADED, ADD_GAME, UPDATE_GAME, DELETE_GAME } from './types';
 import { Game, Round } from '@/db/entity';
 
 export const actions: ActionTree<GamesState, RootState> = {
+  // GAMES
   async newGame({}, type: string = 'classic'): Promise<Game> {
     return repos.games.newGame(type);
   },
@@ -26,29 +27,36 @@ export const actions: ActionTree<GamesState, RootState> = {
   async createGame({ commit, dispatch }, game: Game): Promise<Game> {
     const newGame = await repos.games.create(game);
     game.id = newGame.id;
-    await commit(ADD_GAME, game);
+    commit(ADD_GAME, game);
     return game;
   },
-  async recalculateTeamScores({ dispatch }, gameId: number): Promise<void> {
-    const game = await repos.games.updateTeamScores(gameId);
+  async deleteGame({ commit }, gameId: number): Promise<void> {
+    await repos.games.delete(gameId);
+    commit(DELETE_GAME, gameId);
+  },
+  async recalculateGame({ dispatch }, gameId: number): Promise<void> {
+    const game = await repos.games.recalculateGame(gameId);
     await dispatch('saveGame', game);
   },
+  // ROUNDS
   newRound({}, game: Game): Round {
     const round = repos.rounds.newRound(game);
     return repos.rounds.newRound(game);
   },
   async createRound({ dispatch }, round: Round) {
     const newRound = await repos.rounds.create(round);
-    await dispatch('recalculateTeamScores', round.gameId);
+    await dispatch('recalculateGame', round.gameId);
     return newRound;
   },
   async saveRound({ dispatch }, round: Round) {
+    let result = null;
     if (round.id) {
-      return await repos.rounds.update(round);
+      result = await repos.rounds.update(round);
+    } else {
+      result = await dispatch('createRound', round);
     }
-    const updatedRound = await dispatch('createRound', round);
-    await dispatch('recalculateTeamScores', round.gameId);
-    return updatedRound;
+    await dispatch('recalculateGame', round.gameId);
+    return result;
   },
   async getRound({}, roundId: number) {
     return await repos.rounds.get(roundId);
@@ -60,7 +68,7 @@ export const actions: ActionTree<GamesState, RootState> = {
     const round = await repos.rounds.get(roundId);
     if (round.id) {
       await repos.rounds.delete(roundId);
-      await dispatch('recalculateTeamScores', round.gameId);
+      await dispatch('recalculateGame', round.gameId);
     }
   },
 };

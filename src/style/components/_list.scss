@@ -1,5 +1,5 @@
 .list {
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
@@ -27,7 +27,57 @@
   &--no-padding {
     padding: 0;
   }
+  &--no-margin {
+    margin: 0;
+  }
   &--transparent {
     background-color: transparent;
+  }
+}
+
+.list-row-slider {
+  position: relative;
+  &__options {
+    z-index: 0;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    .slide-delete,
+    .slide-edit {
+      display: flex;
+      align-items: center;
+      padding: 0 $paddingNormal;
+      opacity: 0.6;
+      transition: opacity 300ms linear;
+      &.active {
+        opacity: 1;
+      }
+    }
+    .slide-delete {
+      justify-content: flex-start;
+      background-color: $red;
+    }
+    .slide-edit {
+      background-color: $yellow;
+      justify-content: flex-end;
+    }
+  }
+  &__content {
+    background-color: transparent;
+    z-index: 1;
+    position: relative;
+    left: 0;
+    top: 0;
+    display: grid;
+    height: 100%;
+    width: 100%;
+    transition: left ease-in 100ms;
+    &.is-moving {
+      transition: none;
+    }
   }
 }

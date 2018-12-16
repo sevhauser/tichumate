@@ -5,6 +5,7 @@ import Players from './views/Players.vue';
 import Games from './views/Games.vue';
 import Customize from './views/Customize.vue';
 import Game from './views/Game.vue';
+import Settings from './views/Settings.vue';
 import GameEdit from './views/GameEdit.vue';
 import GameStatistics from './views/GameStatistics.vue';
 import Round from './views/Round.vue';
@@ -80,6 +81,10 @@ export default new Router({
         return props;
       },
       component: GameStatistics,
+    }, {
+      path: '/settings',
+      name: 'Settings',
+      component: Settings,
     },
   ],
 });

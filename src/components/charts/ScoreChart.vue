@@ -1,27 +1,29 @@
 <template>
   <div class="score-chart" v-if="loaded">
-    <LineChart
-      v-if="activeChart === 'total'"
-      class="score-line-chart"
-      :chartData="scoreData.chartData"
-      :options="scoreData.options"/>
-    <BarChart
-      v-else-if="activeChart === 'round'"
-      class="score-bar-chart"
-      :chartData="roundData.chartData"
-      :options="roundData.options"/>
-      <div class="score-chart-controls">
-        <div class="tinput-chip"
-          :class="{active: activeChart === 'total'}"
-          @click="activeChart = 'total'">
-          <span class="tinput-chip__title">Total</span>
-        </div>
-        <div class="tinput-chip"
-          :class="{active: activeChart === 'round'}"
-          @click="activeChart = 'round'">
-          <span class="tinput-chip__title">Per Round</span>
-        </div>
+    <div class="score-chart-content">
+      <LineChart
+        v-if="activeChart === 'total'"
+        class="score-line-chart"
+        :chartData="scoreData.chartData"
+        :options="scoreData.options"/>
+      <BarChart
+        v-else-if="activeChart === 'round'"
+        class="score-bar-chart"
+        :chartData="roundData.chartData"
+        :options="roundData.options"/>
+    </div>
+    <div class="score-chart-controls">
+      <div class="tinput-chip"
+        :class="{active: activeChart === 'total'}"
+        @click="activeChart = 'total'">
+        <span class="tinput-chip__title">{{ $t('statistics.total') }}</span>
       </div>
+      <div class="tinput-chip"
+        :class="{active: activeChart === 'round'}"
+        @click="activeChart = 'round'">
+        <span class="tinput-chip__title">{{ $t('statistics.perRound') }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -37,9 +39,7 @@ export default {
     activeChart: 'total',
     scoreData: {
       chartData: {
-        labels: [
-          'Start',
-        ],
+        labels: [],
         datasets: [],
       },
       options: {
@@ -131,12 +131,14 @@ export default {
   methods: {
     loadData() {
       // Set up labels
+      this.scoreData.chartData.labels.push(this.$t('message.start'));
       this.statistics.rounds.forEach((round, index) => {
-        this.scoreData.chartData.labels.push(index + 1);
-        this.roundData.chartData.labels.push(index + 1);
+        this.scoreData.chartData.labels.push(`${this.$tc('round.round', 1)} ${index + 1}`);
+        this.roundData.chartData.labels.push(`${this.$tc('round.round', 1)} ${index + 1}`);
       });
       // Generate datasets
       let teamIndex = 0;
+
       for (const stats of this.statistics.teamScores) {
         const totalPointsData = {
           label: stats.teamName,

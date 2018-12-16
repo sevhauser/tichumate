@@ -23,13 +23,13 @@
       </div>
     </div>
     <div class="round-inputs">
-      <InputWrapper title="Card Points">
+      <InputWrapper :title="$t('round.cardPoints')">
         <InputSlider
           v-model="scoreDistribution"
           :disabled="round.scores[0].win === 2 || round.scores[1].win === 2"/>
       </InputWrapper>
       <InputWrapper
-          title="Winner"
+          :title="$tc('message.winner', 1)"
           wrapContent="col2">
           <InputWin
             :value="round.scores[0].win"
@@ -50,7 +50,8 @@
             :value="round.scores[1].callState(tichu.id)"
             @t-change="callChange(1, tichu.id, $event)"/>
         </InputWrapper>
-        <InputWrapper title="Additional Points"
+        <InputWrapper
+          :title="$t('round.additionalPoints')"
           wrapContent="col2">
           <InputNumber v-model="round.scores[0].penalty"/>
           <InputNumber v-model="round.scores[1].penalty"/>
@@ -93,7 +94,7 @@ export default {
   },
   computed: {
     viewTitle() {
-      return this.roundId === 0 ? 'Add Round' : 'Edit Round';
+      return this.roundId === 0 ? this.$t('round.new') : this.$t('round.edit');
     },
     ...mapState({
       tichus: (state) => state.tichus.tichus,
@@ -132,7 +133,6 @@ export default {
       } else {
         await this.$store.dispatch('games/saveRound', this.round);
       }
-      await this.$store.dispatch('games/recalculateTeamScores', this.gameId);
     },
     async init() {
       this.game = await this.$store.dispatch('games/getGame', this.gameId);

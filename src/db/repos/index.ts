@@ -6,6 +6,7 @@ import { TichuRepo } from './tichurepo';
 import { RoundRepo } from './roundrepo';
 import { ScoreRepo } from './scorerepo';
 import { CallRepo } from './callrepo';
+import { SettingRepo } from './settingrepo';
 
 class RepoContainer {
   public players: PlayerRepo;
@@ -16,6 +17,7 @@ class RepoContainer {
   public rounds: RoundRepo;
   public scores: ScoreRepo;
   public calls: CallRepo;
+  public settings: SettingRepo;
 
   constructor() {
     this.players = new PlayerRepo();
@@ -26,6 +28,7 @@ class RepoContainer {
     this.rounds = new RoundRepo();
     this.scores = new ScoreRepo();
     this.calls = new CallRepo();
+    this.settings = new SettingRepo();
   }
 }
 

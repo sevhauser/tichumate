@@ -9,8 +9,8 @@
       <InputEmoji
         v-model="result.emoji"/>
     </div>
-    <TButton slot="actions" @click="cancel">Cancel</TButton>
-    <TButton slot="actions" @click="save">Save</TButton>
+    <TButton slot="actions" @click="cancel">{{$t('message.cancel')}}</TButton>
+    <TButton slot="actions" @click="save">{{$t('message.save')}}</TButton>
   </TDialog>
 </template>
 

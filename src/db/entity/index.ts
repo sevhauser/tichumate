@@ -7,6 +7,7 @@ import { Rule } from './rule';
 import { Tichu } from './tichu';
 import { Call } from './call';
 import { Score } from './score';
+import { Setting } from './setting';
 
 export {
   BaseEntity,
@@ -18,4 +19,5 @@ export {
   Tichu,
   Call,
   Score,
+  Setting,
 };

@@ -3,7 +3,7 @@
     :width="width"
     :height="height"
     :class="{ 'small' : height < 20 }"
-    viewBox="0 0 24 24"
+    :viewBox="viewBox"
     :aria-labelledby="iconName"
     role="presentation"
     @click="$emit('click')"
@@ -33,6 +33,10 @@ export default {
     iconColor: {
       type: String,
       default: 'currentColor',
+    },
+    viewBox: {
+      type: String,
+      default: '0 0 24 24',
     },
   },
 };

@@ -1,6 +1,7 @@
 .games {
   @extend .list;
   flex-grow: 1;
+  padding-bottom: 5em;
   .games-fab {
     position: fixed;
     left: 50%;
@@ -10,16 +11,18 @@
 }
 
 .game-entry {
+  @extend .list-entry;
+  margin-bottom: 0;
   display: flex;
   flex-direction: column;
+  background-color: $blackLight;
 }
 .game-entry-row {
   display: grid;
-  &--double {
-    grid-template-columns: 1fr 1fr;
-  }
-  &--triple {
-    grid-template-columns: 1fr 1fr 1fr;
+  @for $i from 2 through 8 {
+    &--count#{$i} {
+      grid-template-columns: repeat($i, 1fr);
+    }
   }
 }
 .game-entry-score {

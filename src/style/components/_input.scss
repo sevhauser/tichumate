@@ -151,6 +151,11 @@
   }
 }
 
+.tinput-select {
+  @extend %tinput-field;
+  padding: $paddingNormal;
+}
+
 .tinput-chip {
   padding: 0 0.75em;
   height: $rowHeightTiny;

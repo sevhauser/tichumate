@@ -1,56 +1,16 @@
 .tichu-round {
   height: $rowHeightSmall;
-  position: relative;
-  &--double {
-    .tichu-round__content {
-      grid-template-columns: 1fr $paddingNormal 1fr;
-    }
+  background-color: $blackLight;
+  display: grid;
+  width: 100%;
+  &.is-moving {
+    transition: none;
   }
-  &__options {
-    z-index: 0;
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    .round-delete,
-    .round-edit {
-      display: flex;
-      align-items: center;
-      padding: 0 $paddingNormal;
-      opacity: 0.6;
-      transition: opacity 100ms linear;
-      &.active {
-        opacity: 1;
-      }
-    }
-    .round-delete {
-      justify-content: flex-start;
-      background-color: $red;
-    }
-    .round-edit {
-      background-color: $yellow;
-      justify-content: flex-end;
-    }
+  &:hover {
+    background-color: $blackLightest;
   }
-  &__content {
-    background-color: $blackLight;
-    z-index: 1;
-    position: absolute;
-    left: 0;
-    top: 0;
-    display: grid;
-    height: 100%;
-    width: 100%;
-    transition: left ease-in 100ms;
-    &.is-moving {
-      transition: none;
-    }
-    &:hover {
-      background-color: $blackLightest;
-    }
+  &--count2 {
+    grid-template-columns: 1fr $paddingNormal 1fr;
   }
   &__number {
     display: flex;
@@ -74,7 +34,6 @@
       padding: 0.25em;
     }
   }
-
   &__score {
     font-family: $fontFamilySlab;
   }

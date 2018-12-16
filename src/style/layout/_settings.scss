@@ -1,0 +1,52 @@
+.settings {
+  display: flex;
+  flex-direction: column;
+}
+
+.settings-content {
+  @extend .list;
+  flex-grow: 1;
+}
+
+.settings-entry {
+  @extend .list-entry;
+  &--text {
+    p, a, li {
+      line-height: 1.25em;
+      font-size: 0.875rem;
+      color: $whiteLight;
+    }
+    ul {
+      padding-left: 1em;
+    }
+    a {
+      color: $yellow;
+      text-decoration: none;
+    }
+  }
+}
+
+.settings-option {
+  display: grid;
+  grid-template-columns: 2.5rem auto;
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  &__content {
+    display: flex;
+    flex-direction: column;
+  }
+  &__content-title {
+    font-size: $fsButton;
+    color: $white;
+    padding-bottom: 0.25rem;
+  }
+  &__content-text {
+    display: flex;
+    line-height: 1.25rem;
+    font-size: $fsRegular;
+    color: $whiteLight;
+  }
+}

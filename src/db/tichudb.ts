@@ -1,4 +1,6 @@
 import Dexie from 'dexie';
+import { SettingKey } from './entity/setting';
+import { detectLanguage } from '@/locale/languages';
 
 export class TichuDB extends Dexie {
   public tichus: Dexie.Table<ITichu, number>;
@@ -9,6 +11,7 @@ export class TichuDB extends Dexie {
   public rounds: Dexie.Table<IRound, number>;
   public scores: Dexie.Table<IScore, number>;
   public calls: Dexie.Table<ICall, number>;
+  public settings: Dexie.Table<ISetting, number>;
 
   constructor() {
     super('TichuDB');
@@ -23,6 +26,27 @@ export class TichuDB extends Dexie {
       scores: '++id, roundId, teamId',
       calls: '++id, scoreId, playerId, tichuId, success',
     });
+    // V2 - added settings
+    this.version(2).stores({
+      tichus: '++id',
+      rules: '++id, key',
+      players: '++id, name',
+      teams: '++id, *playerIds',
+      games: '++id, *teamIds',
+      rounds: '++id, gameId',
+      scores: '++id, roundId, teamId',
+      calls: '++id, scoreId, playerId, tichuId, success',
+      settings: '++id, &key',
+    }).upgrade((tx) => {
+      const userLanguage = detectLanguage();
+      tx.table('settings').bulkAdd([
+        {
+          key: SettingKey.LANG,
+          lang: 'settings.language',
+          value: userLanguage,
+        },
+      ]);
+    });
 
     // Assign tables
     this.tichus = this.table('tichus');
@@ -34,6 +58,7 @@ export class TichuDB extends Dexie {
     this.rounds = this.table('rounds');
     this.scores = this.table('scores');
     this.calls = this.table('calls');
+    this.settings = this.table('settings');
 
     // Populate with default values
     this.on('populate', () => {
@@ -58,6 +83,12 @@ export class TichuDB extends Dexie {
         lang: 'call.grande',
         value: 200,
         protected: true,
+      });
+      const userLanguage = detectLanguage();
+      this.settings.add({
+        key: SettingKey.LANG,
+        lang: 'settings.language',
+        value: userLanguage,
       });
     });
     this.open();
@@ -118,4 +149,11 @@ export interface ICall extends ITichuTable {
   playerId?: number;
   tichuId: number;
   success: number;
+}
+
+export interface ISetting extends ITichuTable {
+  id?: number;
+  key: string;
+  lang: string;
+  value: any;
 }

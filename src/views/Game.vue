@@ -2,13 +2,13 @@
   <div class="game view">
     <div class="game-app-bar">
      <AppBarRow>
-        <TichuIcon slot="left" @click="goBack">
+        <TichuIcon slot="left" class="clickable" @click="goBack">
          <IconBack/>
         </TichuIcon>
-        <TichuIcon slot="right" @click="editGame">
+        <TichuIcon slot="right" class="clickable" @click="editGame">
           <IconOptions/>
         </TichuIcon>
-        <TichuIcon slot="right" @click="loadStatistics">
+        <TichuIcon slot="right" class="clickable" @click="loadStatistics">
           <IconStatistics/>
         </TichuIcon>
      </AppBarRow>
@@ -94,7 +94,7 @@ export default {
           bus: EventBus,
           identifier: 'gameedit-delete-round',
           attributes: { roundId },
-          content: 'Do you want to delete this round?',
+          content: this.$t('round.deleteQuery'),
         },
         { width: '280', height: 'auto' },
       );

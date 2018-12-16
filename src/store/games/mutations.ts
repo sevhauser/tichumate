@@ -1,5 +1,5 @@
 import { MutationTree } from 'vuex';
-import { GamesState, GAMES_LOADED, ADD_GAME, UPDATE_GAME } from './types';
+import { GamesState, GAMES_LOADED, ADD_GAME, UPDATE_GAME, DELETE_GAME } from './types';
 import { Game } from '@/db/entity';
 
 export const mutations: MutationTree<GamesState> = {
@@ -13,6 +13,12 @@ export const mutations: MutationTree<GamesState> = {
         const game = state.games.find((value) => value.id === payload.id);
         if (game !== undefined) {
             Object.assign(game, payload);
+        }
+    },
+    [DELETE_GAME](state, payload: number) {
+        const index = state.games.findIndex((el) => el.id === payload);
+        if (index >= 0) {
+            state.games.splice(index, 1);
         }
     },
 };

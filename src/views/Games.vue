@@ -5,6 +5,8 @@
         v-if="entry.type === 'entry'"
         :game="entry.content"
         :key="index"
+        @edit-game="editGame(entry.content.id)"
+        @delete-game="deleteGame(entry.content.id)"
         @click="loadGame(entry.content.id)"/>
       <div class="list-subtitle"
         v-else
@@ -15,7 +17,7 @@
     <TFabExtended
       @click="newGame"
       class="games-fab bg-green txt-black-dark">
-      New Game
+      {{ $t("game.new") }}
     </TFabExtended>
   </div>
 </template>
@@ -23,6 +25,8 @@
 <script>
 import TFabExtended from '@/components/ui/TFabExtended.vue';
 import GameListEntry from '@/components/ui/GameListEntry.vue';
+import DialogConfirm from '@/components/dialog/DialogConfirm.vue';
+import EventBus from '@/EventBus';
 import { mapGetters } from 'vuex';
 import { formatDate } from '@/helpers/datetime';
 
@@ -55,9 +59,30 @@ export default {
     newGame() {
       this.$router.push('/game/new');
     },
+    editGame(id) {
+      this.$router.push(`/game/${id}/edit`);
+    },
+    deleteGame(gameId) {
+      this.$modal.show(
+        DialogConfirm,
+        {
+          bus: EventBus,
+          identifier: 'games-delete-game',
+          attributes: { gameId },
+          content: this.$t('game.deleteQuery'),
+        },
+        { width: '280', height: 'auto' },
+      );
+    },
+    handleDeleteGame(gameId) {
+      this.$store.dispatch('games/deleteGame', gameId);
+    },
     async init() {},
   },
   created() {
+    EventBus.$on('games-delete-game-confirm', (msg) => {
+      this.handleDeleteGame(msg.gameId);
+    });
     this.init().then(() => {
       this.loaded = true;
     });
@@ -65,6 +90,7 @@ export default {
   components: {
     TFabExtended,
     GameListEntry,
+    DialogConfirm,
   },
 };
 </script>

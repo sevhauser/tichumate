@@ -2,10 +2,10 @@
   <div class="tinput-tichu">
     <div class="tinput-tichu__element"
       :class="{ 'active-red' : state === -1 }"
-      @click="fail()">FAIL</div>
+      @click="fail()">{{ $t('round.fail').toUpperCase() }}</div>
     <div class="tinput-tichu__element"
       :class="{ 'active-green' : state === 1 }"
-      @click="success()">SUCCESS</div>
+      @click="success()">{{ $t('round.success').toUpperCase() }}</div>
   </div>
 </template>
 

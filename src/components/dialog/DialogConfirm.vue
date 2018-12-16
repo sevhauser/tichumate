@@ -1,8 +1,8 @@
 <template>
   <TDialog :title="title">
     <p class="tdialog-content-item">{{ content }}</p>
-    <TButton slot="actions" @click="cancel">{{ cancelText }}</TButton>
-    <TButton slot="actions" @click="confirm">{{ confirmText }}</TButton>
+    <TButton slot="actions" @click="cancel">{{ cancelText === '' ? $t('message.cancel') : cancelText }}</TButton>
+    <TButton slot="actions" @click="confirm">{{ confirmText === '' ? $t('message.ok') : confirmText }}</TButton>
   </TDialog>
 </template>
 
@@ -23,11 +23,11 @@ export default {
     },
     confirmText: {
       type: String,
-      default: 'OK',
+      default: '',
     },
     cancelText: {
       type: String,
-      default: 'Cancel',
+      default: '',
     },
     bus: {
       type: Object,

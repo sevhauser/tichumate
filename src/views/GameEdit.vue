@@ -10,19 +10,20 @@
         v-for="(team, index) in game.teams"
         :key="index"
         wrapContent="rows"
-        :title="`Team ${ index + 1}`">
+        :title="`${$tc('team.team')} ${ index + 1}`">
         <InputText
           v-model="team.name"
-          label="Team Name"/>
+          :maxLength="50"
+          :label="$t('team.name')"/>
         <InputChipPlayerSelect
-          label="Players"
+          :label="$tc('player.player', 2)"
           :allowCreate="true"
           v-model="team.playerIds"
           @create="createPlayer($event, index)"
           :lookupValues="players"/>
       </InputWrapper>
       <InputWrapper
-        title="Winning Conditions">
+        :title="$t('game.winConditions')">
         <InputRadio
           v-model="game.winConditions.type"
           :options="rules"
@@ -93,7 +94,7 @@ export default {
     },
     createPlayer(playerName, teamId) {
       this.$modal.show(EditPlayerDialog, {
-        title: 'Create Player',
+        title: this.$t('player.create'),
         name: playerName,
         bus: EventBus,
         closeOnSave: true,

@@ -5,6 +5,7 @@ import { players } from './players';
 import { rules } from './rules';
 import { tichus } from './tichus';
 import { games } from './games';
+import { settings } from './settings';
 
 Vue.use(Vuex);
 
@@ -18,6 +19,8 @@ const store: StoreOptions<RootState> = {
             await dispatch('rules/loadRules');
             await dispatch('tichus/loadTichus');
             await dispatch('games/loadGames');
+            await dispatch('settings/loadSettings');
+            await dispatch('settings/loadLanguages');
         },
     },
     modules: {
@@ -25,6 +28,7 @@ const store: StoreOptions<RootState> = {
         rules,
         tichus,
         games,
+        settings,
     },
 };
 

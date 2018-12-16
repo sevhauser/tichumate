@@ -1,22 +1,9 @@
 <template>
-  <div class="tichu-round tichu-round--double list-entry
-    list-entry--no-padding list-entry--transparent" ref="container">
-    <div class="tichu-round__options">
-      <div class="round-delete"
-        :class="{ 'active' : xValue == 1 }">
-        <TichuIcon><IconDelete/></TichuIcon>
-      </div>
-      <div class="round-edit"
-        :class="{ 'active' : xValue == -1 }">
-        <TichuIcon><IconEdit/></TichuIcon>
-      </div>
-    </div>
-    <div class="tichu-round__content"
-      @mousedown="dragStart" @touchstart="dragStart"
-      @mousemove="dragMoving" @mouseup="dragFinish"
-      @touchmove="dragMoving" @touchend="dragFinish"
-      ref="slide"
-      :class="{ 'is-moving' : isMoving }">
+  <RowSlider
+    @slide-edit="$emit('round-edit')"
+    @slide-delete="$emit('round-delete')">
+    <div class="tichu-round"
+      :class="[ `tichu-round--count${round.scores.length}`]">
       <template
         v-for="(score, scoreIndex) in round.scores">
         <div class="tichu-round-score"
@@ -45,25 +32,15 @@
         <div :key="-scoreIndex -1" class="tichu-round__number" v-if="scoreIndex === 0">{{ roundNumber }}</div>
       </template>
     </div>
-  </div>
+  </RowSlider>
 </template>
 
 <script>
-import TichuIcon from '@/components/icons/TichuIcon.vue';
-import IconDelete from '@/components/icons/IconDelete.vue';
-import IconEdit from '@/components/icons/IconEdit.vue';
+import RowSlider from '@/components/ui/RowSlider.vue';
 import { Round } from '@/db/entity';
 import { mapGetters } from 'vuex';
 
 export default {
-  data() {
-    return {
-      x: 0,
-      isMoving: false,
-      isPassing: false,
-      xValue: 0,
-    };
-  },
   props: {
     round: {
       type: Round,
@@ -88,48 +65,9 @@ export default {
         return tichu.title.charAt(0);
       }
     },
-    dragStart(e) {
-      this.isMoving = true;
-      this.x = (e.pageX || e.touches[0].pageX);
-    },
-    dragMoving(e) {
-      if (this.isMoving) {
-        const deltaX = (e.pageX || e.touches[0].pageX) - this.x;
-        const { slide, container } = this.$refs;
-        const containerWidth = container.clientWidth;
-        if (Math.abs(deltaX) <= (containerWidth / 2)) {
-          this.isPassing = false;
-          slide.style.left = `${deltaX}px`;
-          this.xValue = 0;
-        } else {
-          this.isPassing = true;
-          if (deltaX > 0) {
-            this.xValue = 1;
-          } else {
-            this.xValue = -1;
-          }
-        }
-      }
-    },
-    dragFinish() {
-      if (this.isMoving && this.isPassing) {
-        if (this.xValue > 0) {
-          this.$emit('round-delete');
-        } else {
-          this.$emit('round-edit');
-        }
-        this.$refs.slide.style.left = '0';
-        this.isPassing = false;
-      } else if (this.isMoving && !this.isPassing) {
-        this.isMoving = false;
-        this.$refs.slide.style.left = '0';
-      }
-    },
   },
   components: {
-    TichuIcon,
-    IconDelete,
-    IconEdit,
+    RowSlider,
   },
 };
 </script>

@@ -4,7 +4,9 @@
       <span>{{team.name }}</span>
     </div>
     <div class="tichu-score__score">
-      <span :class="{ 'txt-yellow' : team.win }">{{ team.score }}</span>
+      <span :class="{ 'txt-yellow' : team.win }">
+        {{ team.score }}
+      </span>
     </div>
     <div class="tichu-score__players">
       <span>{{ playerNames }}</span>

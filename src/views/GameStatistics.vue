@@ -1,15 +1,15 @@
 <template>
   <div class="view game-stats" v-if="loaded">
     <AppBar
-      title="Game Statistics">
+      :title="$t('statistics.gameStatistics')">
       <TichuIcon slot="left" @click="back" class="clickable"><IconBack/></TichuIcon>
     </AppBar>
     <div class="game-stats-contain">
-      <div class="list-subtitle game-stats-subheader">Scores</div>
+      <div class="list-subtitle game-stats-subheader">{{ $tc('score.score', 2) }}</div>
       <ScoreChart
         class="game-score-chart"
         :statistics="statistics"/>
-      <div class="list-subtitle game-stats-subheader">Numbers</div>
+      <div class="list-subtitle game-stats-subheader">{{ $tc('message.number', 2)}}</div>
       <div class="game-stats-number game-stats-item"
         :class="[`game-stats-numbers--count${statistics.teamScores.length}`]">
         <div class="game-stats-numbers-line game-stats-numbers-line--header">
@@ -23,7 +23,7 @@
         <div class="game-stats-numbers-line game-stats-numbers-line--line"
           v-for="(entry, i) in numberLayout"
           :key="i">
-          <div class="game-stats-numbers-line__entry">{{ entry.title }}</div>
+          <div class="game-stats-numbers-line__entry">{{ $tc(entry.title.lang, entry.title.count) }}</div>
           <div class="game-stats-numbers-line__entry"
             v-for="(stat, index) in statistics.teamScores"
             :key="index">
@@ -49,10 +49,10 @@ export default {
     loaded: false,
     statistics: null,
     numberLayout: [
-      { title: 'Wins', key: 'wins'},
-      { title: 'Double Wins', key: 'doubleWins'},
-      { title: 'Max. win streak', key: 'longestWinStreak'},
-      { title: 'Avg. Score', key: 'averagePoints'},
+      { title: { lang: 'message.win', count: 2 }, key: 'wins'},
+      { title: { lang: 'message.doubleWin', count: 2 }, key: 'doubleWins'},
+      { title: { lang: 'statistics.maxWinStreak', count: 1 }, key: 'longestWinStreak'},
+      { title: { lang: 'statistics.avgScore', count: 1 }, key: 'averagePoints'},
     ],
   }),
   props: {
