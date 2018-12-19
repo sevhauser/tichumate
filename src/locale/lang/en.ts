@@ -53,6 +53,9 @@ export default {
   score: {
     score: 'Score | Scores',
   },
+  tichu: {
+    tichu: 'Tichu | Tichus',
+  },
   call: {
     tichu: 'Tichu',
     grande: 'Grand Tichu',
