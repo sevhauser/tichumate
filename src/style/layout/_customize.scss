@@ -2,3 +2,34 @@
   @extend .list;
   flex-grow: 1;
 }
+
+.customize-fab {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
+  bottom: $paddingNormal;
+}
+
+.customize-lock {
+  padding-right: 0.5em;
+  filter: grayscale(100%);
+}
+
+.customize-row {
+  @extend .list-entry;
+  @extend .list-entry--action;
+  &__content {
+    > div:nth-child(2) {
+      font-size: $fsSmall;
+      color: $whiteLight;
+      height: 1.25rem;
+      display: flex;
+      align-items: flex-end;
+    }
+  }
+  &__icon {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}

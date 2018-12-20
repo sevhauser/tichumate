@@ -16,4 +16,7 @@ export class Tichu extends BaseEntity implements ITichu {
 
   @dataProperty()
   public protected: boolean = false;
+
+  @dataProperty()
+  public active: boolean = true;
 }

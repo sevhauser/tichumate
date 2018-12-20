@@ -2,12 +2,13 @@
   @extend .list;
   flex-grow: 1;
   padding-bottom: 5em;
-  .games-fab {
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%);
-    bottom: $paddingNormal;
-  }
+}
+
+.games-fab {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
+  bottom: $paddingNormal;
 }
 
 .game-entry {

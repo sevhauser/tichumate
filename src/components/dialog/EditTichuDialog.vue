@@ -2,12 +2,12 @@
   <TDialog :title="title">
     <div class="tdialog-content-item">
       <InputText
-        :placeholder="$t('player.name')"
-        v-model="result.name"/>
+        :placeholder="$t('message.name')"
+        v-model="result.title"/>
     </div>
     <div class="tdialog-content-item">
-      <InputEmoji
-        v-model="result.emoji"/>
+      <InputNumber
+        v-model="result.value"/>
     </div>
     <TButton slot="actions" @click="cancel">{{$t('message.cancel')}}</TButton>
     <TButton slot="actions" @click="save">{{$t('message.save')}}</TButton>
@@ -18,8 +18,8 @@
 import TDialog from '@/components/dialog/TDialog.vue';
 import TButton from '@/components/ui/TButton.vue';
 import InputText from '@/components/form/InputText.vue';
-import InputEmoji from '@/components/form/InputEmoji.vue';
-import { Player } from '@/db/entity';
+import InputNumber from '@/components/form/InputNumber.vue';
+import { Tichu } from '@/db/entity';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -27,26 +27,18 @@ export default {
   data: () => ({
     result: {
       id: 0,
-      name: '',
-      emoji: '',
+      title: '',
+      value: 0,
     },
   }),
   props: {
-    playerId: {
+    tichuId: {
       type: Number,
       default: 0,
     },
     title: {
       type: String,
-      default: '',
-    },
-    name: {
-      type: String,
-      default: '',
-    },
-    emoji: {
-      type: String,
-      default: '',
+      required: true,
     },
     bus: {
       type: Object,
@@ -54,7 +46,7 @@ export default {
     },
     identifier: {
       type: String,
-      default: 'player-dialog',
+      default: 'tichu-dialog',
     },
     closeOnSave: {
       type: Boolean,
@@ -67,14 +59,14 @@ export default {
   },
   computed: {
     ...mapGetters({
-      player: 'players/player',
+      tichu: 'tichus/tichu',
     }),
   },
   methods: {
     save() {
       this.saveChanges().then((playerId) => {
         if (this.bus !== null) {
-          this.bus.$emit(`${this.identifier}-saved`, { result: playerId, attributes: this.attributes });
+          this.bus.$emit(`${this.identifier}-saved`, { result: this.result.id, attributes: this.attributes });
         }
         if (this.closeOnSave) {
           this.close();
@@ -82,14 +74,14 @@ export default {
       });
     },
     async saveChanges() {
-      let playerId = this.playerId;
-      if (this.playerId === 0) {
-        const newPlayer = await this.$store.dispatch('players/createPlayer', this.result);
-        playerId = newPlayer.id;
+      let tichuId = this.tichuId;
+      if (this.tichuId === 0) {
+        const newTichu = await this.$store.dispatch('tichus/createTichu', this.result);
+        tichuId = newTichu.id;
       } else {
-        await this.$store.dispatch('players/updatePlayer', this.result);
+        await this.$store.dispatch('tichus/updateTichu', this.result);
       }
-      return playerId;
+      return tichuId;
     },
     cancel() {
       this.close();
@@ -97,26 +89,24 @@ export default {
     close() {
       this.$emit('close');
     },
-    loadPlayer() {
-      if (this.playerId !== 0) {
-        const player = this.player(this.playerId);
-        this.result = player;
+    loadTichu() {
+      if (this.tichuId !== 0) {
+        const tichu = this.tichu(this.tichuId);
+        this.result = tichu;
       } else {
-        this.result = new Player();
-        this.result.name = this.name;
-        this.result.emoji = this.emoji;
+        this.result = new Tichu();
       }
     },
   },
   created() {
-    this.loadPlayer();
+    this.loadTichu();
     this.bus.$on(`${this.identifier}-close`, this.close);
   },
   components: {
     TDialog,
     TButton,
+    InputNumber,
     InputText,
-    InputEmoji,
   },
 };
 </script>

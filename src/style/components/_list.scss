@@ -33,6 +33,14 @@
   &--transparent {
     background-color: transparent;
   }
+  &--action {
+    display: grid;
+    grid-template-columns: 1fr 2.5rem;
+  }
+}
+
+.list-entry-icon {
+  display: flex;
 }
 
 .list-row-slider {

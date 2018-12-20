@@ -34,12 +34,24 @@ export default {
     isPassing: false,
     xValue: 0,
   }),
+  props: {
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
+  },
   methods: {
     dragStart(e) {
+      if (this.disabled) {
+        return;
+      }
       this.isMoving = true;
       this.x = (e.pageX || e.touches[0].pageX);
     },
     dragMoving(e) {
+      if (this.disabled) {
+        return;
+      }
       if (this.isMoving) {
         const deltaX = (e.pageX || e.touches[0].pageX) - this.x;
         const { slide, container } = this.$refs;
@@ -59,6 +71,9 @@ export default {
       }
     },
     dragFinish() {
+      if (this.disabled) {
+        return;
+      }
       if (this.isMoving && this.isPassing) {
         if (this.xValue > 0) {
           this.$emit('slide-delete');

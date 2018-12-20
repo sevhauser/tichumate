@@ -11,11 +11,15 @@ export default {
     start: 'Start',
     number: 'Number | Numbers',
     option: 'Option | Options',
+    point: 'Point | Points',
+    name: 'Name',
   },
   player: {
     player: 'Player | Players',
     new: 'New Player',
+    name: 'Player Name',
     create: 'Create Player',
+    edit: 'Edit Player',
   },
   team: {
     team: 'Team | Teams',
@@ -55,6 +59,11 @@ export default {
   },
   tichu: {
     tichu: 'Tichu | Tichus',
+    new: 'New Tichu',
+    create: 'Create Tichu',
+    edit: 'Edit Tichu',
+    delete: 'Delete Tichu',
+    deleteQuery: 'Do you want to delete this tichu?',
   },
   call: {
     tichu: 'Tichu',

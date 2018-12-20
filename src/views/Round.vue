@@ -96,11 +96,9 @@ export default {
     viewTitle() {
       return this.roundId === 0 ? this.$t('round.new') : this.$t('round.edit');
     },
-    ...mapState({
-      tichus: (state) => state.tichus.tichus,
-    }),
     ...mapGetters({
       tichu: 'tichus/tichu',
+      tichus: 'tichus/activeTichus',
     }),
   },
   watch: {

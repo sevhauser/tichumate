@@ -14,21 +14,10 @@ export class TichuDB extends Dexie {
   public settings: Dexie.Table<ISetting, number>;
 
   constructor() {
-    super('TichuDB');
+    super('TichuDB_dev');
 
     this.version(1).stores({
-      tichus: '++id',
-      rules: '++id, key',
-      players: '++id, name',
-      teams: '++id, *playerIds',
-      games: '++id, *teamIds',
-      rounds: '++id, gameId',
-      scores: '++id, roundId, teamId',
-      calls: '++id, scoreId, playerId, tichuId, success',
-    });
-    // V2 - added settings
-    this.version(2).stores({
-      tichus: '++id',
+      tichus: '++id, active',
       rules: '++id, key',
       players: '++id, name',
       teams: '++id, *playerIds',
@@ -37,15 +26,6 @@ export class TichuDB extends Dexie {
       scores: '++id, roundId, teamId',
       calls: '++id, scoreId, playerId, tichuId, success',
       settings: '++id, &key',
-    }).upgrade((tx) => {
-      const userLanguage = detectLanguage();
-      tx.table('settings').bulkAdd([
-        {
-          key: SettingKey.LANG,
-          lang: 'settings.language',
-          value: userLanguage,
-        },
-      ]);
     });
 
     // Assign tables
@@ -77,12 +57,14 @@ export class TichuDB extends Dexie {
         lang: 'call.tichu',
         value: 100,
         protected: true,
+        active: true,
       });
       this.tichus.add({
         title: '',
         lang: 'call.grande',
         value: 200,
         protected: true,
+        active: true,
       });
       const userLanguage = detectLanguage();
       this.settings.add({
@@ -106,6 +88,7 @@ export interface ITichu extends ITichuTable {
   lang: string;
   value: number;
   protected: boolean;
+  active: boolean;
 }
 
 export interface IPlayer extends ITichuTable {

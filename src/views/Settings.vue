@@ -24,6 +24,10 @@
       <div class="settings-entry settings-entry--text" v-html="$t('settings.aboutText')"></div>
       <div class="list-subtitle">{{ $tc('settings.openSource', 2).toUpperCase() }}</div>
       <div class="settings-entry settings-entry--text" v-html="$t('settings.openSourceText')"></div>
+      <div class="list-subtitle">App Info</div>
+      <div class="settings-entry settings-entry--text">
+        <p>Version: 0.1.0</p>
+      </div>
     </div>
   </div>
 </template>

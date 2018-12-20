@@ -53,7 +53,7 @@ export default {
   methods: {
     createPlayer() {
       this.$modal.show(EditPlayerDialog, {
-        title: 'Create Player',
+        title: this.$t('player.create'),
         closeOnSave: true,
         bus: EventBus,
         identifier: 'players-edit-player',
@@ -64,7 +64,7 @@ export default {
     },
     editPlayer(playerId) {
       this.$modal.show(EditPlayerDialog, {
-        title: 'Edit Player',
+        title: this.$t('player.edit'),
         playerId,
         closeOnSave: true,
         bus: EventBus,
