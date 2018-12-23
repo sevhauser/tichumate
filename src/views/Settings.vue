@@ -26,7 +26,7 @@
       <div class="settings-entry settings-entry--text" v-html="$t('settings.openSourceText')"></div>
       <div class="list-subtitle">App Info</div>
       <div class="settings-entry settings-entry--text">
-        <p>Version: 0.1.0</p>
+        <p>Version: {{ appVersion }}</p>
       </div>
     </div>
   </div>
@@ -54,6 +54,9 @@ export default {
     ...mapGetters({
       setting: 'settings/setting',
     }),
+    appVersion() {
+      return process.env.VUE_APP_VERSION;
+    },
     languageSelect() {
       const result = [];
       this.languages.forEach((val) => {

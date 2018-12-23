@@ -1,5 +1,5 @@
 import { ActionTree } from 'vuex';
-import { PlayersState, PLAYERS_LOADED, ADD_PLAYER, UPDATE_PLAYER } from './types';
+import { PlayersState, PLAYERS_LOADED, ADD_PLAYER, UPDATE_PLAYER, REMOVE_PLAYER } from './types';
 import { RootState } from '../types';
 import { repos } from '@/db/repos';
 import { IPlayer } from '@/db/tichudb';
@@ -20,5 +20,10 @@ export const actions: ActionTree<PlayersState, RootState> = {
     await repos.players.update(player);
     commit(UPDATE_PLAYER, player);
     return player;
+  },
+  async deletePlayer({ commit, dispatch }, playerId: number): Promise<void> {
+    await repos.players.delete(playerId);
+    commit(REMOVE_PLAYER, playerId);
+    await dispatch('loadPlayers');
   },
 };

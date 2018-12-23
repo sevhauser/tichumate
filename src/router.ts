@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Home from './views/Home.vue';
 import Players from './views/Players.vue';
+import Player from './views/Player.vue';
 import Games from './views/Games.vue';
 import Customize from './views/Customize.vue';
 import Game from './views/Game.vue';
@@ -81,6 +82,15 @@ export default new Router({
         return props;
       },
       component: GameStatistics,
+    }, {
+      path: '/player/:playerId',
+      name: 'Player',
+      props(route) {
+        const props: { [index: string]: any } = { ...route.params };
+        props.playerId = parseInt(props.playerId, 10);
+        return props;
+      },
+      component: Player,
     }, {
       path: '/settings',
       name: 'Settings',

@@ -17,4 +17,11 @@ export class Team extends BaseEntity implements ITeam {
 
   @dataProperty()
   public win: boolean = false;
+
+  public removePlayer(playerId: number) {
+    const index = this.playerIds.findIndex((el) => el === playerId);
+    if (index >= 0) {
+      this.playerIds.splice(index, 1);
+    }
+  }
 }

@@ -1,0 +1,62 @@
+.tour {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+  background-color: rgba(0,0,0,0.9);
+}
+.tour-content {
+  width: 100%;
+  max-width: calc(100% - 4rem);
+  min-height: 10rem;
+  max-height: calc(100% - 4rem);
+  background-color: $blackDark;
+}
+
+.tour-view {
+  width: 100%;
+  min-height: 10rem;
+  max-height: calc(100% - 3rem);
+  overflow-y: auto;
+  padding: $paddingMedium $paddingNormal 0 $paddingNormal;
+  color: $whiteLight;
+  text-align: center;
+  h3,
+  strong {
+    color: $white;
+  }
+  p {
+    font-size: $fsRegularSmall;
+    margin: $paddingSmall 0;
+  }
+}
+
+.tour-view-img {
+  padding: 0  0 $paddingNormal 0;
+}
+
+.tour-view-inline-img {
+  > img {
+    width: 100%;
+  }
+}
+
+.tour-controls {
+  width: 100%;
+  height: 3rem;
+  padding: 0 $paddingNormal;
+  display: flex;
+  justify-content: space-around;
+}
+
+.tour-controls-btn {
+  font-size: $fsButton;
+  color: $white;
+  text-transform: uppercase;
+  background-color: transparent;
+}

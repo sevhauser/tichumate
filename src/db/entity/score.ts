@@ -97,6 +97,22 @@ export class Score extends BaseEntity implements IScore {
     this.updatePoints();
   }
 
+  public callPlayer(tichuId: number, playerId: number) {
+    const call = this.calls.find((element) => element.tichuId === tichuId);
+    if (call) {
+      call.playerId = playerId;
+    }
+    this.updatePoints();
+  }
+
+  public callPlayerState(tichuId: number) {
+    const call = this.calls.find((element) => element.tichuId === tichuId);
+    if (call) {
+      return call.playerId;
+    }
+    return 0;
+  }
+
   public afterHydration() {
     this.updatePoints();
   }

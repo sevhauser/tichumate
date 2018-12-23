@@ -9,3 +9,12 @@
     bottom: $paddingNormal;
   }
 }
+
+.player-entry {
+  @extend .list-entry;
+  margin-bottom: 0;
+  &__content {
+    display: grid;
+    grid-template-columns: 3rem auto;
+  }
+}

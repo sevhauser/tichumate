@@ -6,6 +6,7 @@ import { rules } from './rules';
 import { tichus } from './tichus';
 import { games } from './games';
 import { settings } from './settings';
+import { tour } from './tour';
 
 Vue.use(Vuex);
 
@@ -29,6 +30,7 @@ const store: StoreOptions<RootState> = {
         tichus,
         games,
         settings,
+        tour,
     },
 };
 

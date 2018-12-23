@@ -23,4 +23,9 @@ export class Game extends BaseEntity implements IGame {
     type: 1,
     value: 1000,
   };
+
+  public getTeam(teamId: number): Team | undefined {
+    const team = this.teams.find((el) => el.id === teamId);
+    return team;
+  }
 }

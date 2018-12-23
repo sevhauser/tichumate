@@ -10,4 +10,7 @@ export class Player extends BaseEntity implements IPlayer {
 
   @dataProperty()
   public name: string = '';
+
+  @dataProperty()
+  public created: number = Date.now();
 }

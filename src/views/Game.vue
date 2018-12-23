@@ -21,6 +21,8 @@
         :team="game.teams[1]"
        />
      </div>
+     <GameScoreInfo
+      :game="game"/>
     </div>
     <div class="game-rounds" v-if="loaded">
       <TichuRound
@@ -48,6 +50,7 @@ import IconOptions from '@/components/icons/IconOptions.vue';
 import IconStatistics from '@/components/icons/IconStatistics.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
 import TFab from '@/components/ui/TFab.vue';
+import GameScoreInfo from '@/components/ui/GameScoreInfo.vue';
 import DialogText from '@/components/dialog/DialogText.vue';
 import DialogConfirm from '@/components/dialog/DialogConfirm.vue';
 import EventBus from '@/EventBus';
@@ -134,6 +137,7 @@ export default {
     TFab,
     DialogText,
     DialogConfirm,
+    GameScoreInfo,
   },
 };
 </script>

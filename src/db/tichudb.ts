@@ -23,7 +23,7 @@ export class TichuDB extends Dexie {
       teams: '++id, *playerIds',
       games: '++id, *teamIds',
       rounds: '++id, gameId',
-      scores: '++id, roundId, teamId',
+      scores: '++id, roundId, teamId, win',
       calls: '++id, scoreId, playerId, tichuId, success',
       settings: '++id, &key',
     });
@@ -124,12 +124,13 @@ export interface IScore extends ITichuTable {
   id?: number;
   roundId: number;
   teamId: number;
+  win: number;
 }
 
 export interface ICall extends ITichuTable {
   id?: number;
   scoreId: number;
-  playerId?: number;
+  playerId: number;
   tichuId: number;
   success: number;
 }

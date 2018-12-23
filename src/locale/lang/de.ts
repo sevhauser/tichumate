@@ -3,6 +3,7 @@ export default {
   message: {
     ok: 'OK',
     cancel: 'Abbrechen',
+    close: 'Schliessen',
     save: 'Speichern',
     delete: 'Löschen',
     win: 'Sieg | Siege',
@@ -13,6 +14,7 @@ export default {
     option: 'Option | Optionen',
     point: 'Punkt | Punkte',
     name: 'Name',
+    next: 'Weiter',
   },
   player: {
     player: 'Spieler | Spieler',
@@ -20,6 +22,9 @@ export default {
     name: 'Spieler Name',
     create: 'Spieler erstellen',
     edit: 'Spieler bearbeiten',
+    delete: 'Spieler löschen',
+    deleteQuery: 'Willst du diesen Spieler löschen?',
+    select: 'Spieler wählen | Spieler wählen',
   },
   team: {
     team: 'Team | Teams',

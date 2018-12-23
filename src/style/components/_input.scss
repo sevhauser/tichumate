@@ -111,6 +111,16 @@
   }
 }
 
+.tinput-top {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  &__left,
+  &__right {
+    display: flex;
+    justify-content: center;
+  }
+}
+
 .tinput-win {
   @extend %tinput-choice;
   &__element {
@@ -285,4 +295,10 @@
     color: $white;
     background-color: $whiteLighter;
   }
+}
+
+.tinput-call-player {
+ .no-selected {
+   filter: grayscale(100);
+ }
 }

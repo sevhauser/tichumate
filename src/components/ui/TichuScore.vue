@@ -36,9 +36,9 @@ export default {
     playerNames() {
       return this.team.playerIds.reduce((result, playerId) => {
         if (result.length !== 0) {
-          return result + `, ${this.player(playerId).name}`;
+          return result + ` ${this.player(playerId).emoji}${this.player(playerId).name}`;
         }
-        return this.player(playerId).name;
+        return `${this.player(playerId).emoji}${this.player(playerId).name}`;
       }, '');
     },
   },

@@ -57,11 +57,6 @@ export default {
       this.$router.push('/settings');
     },
   },
-  mounted() {
-    if (this.$route.path === '/') {
-      this.$router.replace('/games');
-    }
-  },
   components: {
     TichuIcon,
     IconClose,
