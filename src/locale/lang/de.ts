@@ -37,6 +37,10 @@ export default {
     delete: 'Spiel löschen',
     deleteQuery: 'Willst du dieses Spiel löschen?',
     winConditions: 'Sieger',
+    hasWon: '{team} hat das Spiel gewonnen!',
+    itsATie: 'Unentschieden!',
+    pointsToWin: '1 Punkt zum Sieg | {count} Punkte zum Sieg',
+    pointsAhead: '{team} ist 1 Punkt voraus | {team} ist {count} Punkte voraus',
   },
   round: {
     round: 'Runde | Runden',

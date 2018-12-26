@@ -80,12 +80,12 @@ export class PlayerStatisticsProvider {
       if (oldestGame > game.date) {
         oldestGame = game.date;
       }
-      if (oldestGame === Number.MAX_SAFE_INTEGER) {
-        oldestGame = 0;
-      }
       if (game.id) {
         await this.processRounds(game.id);
       }
+    }
+    if (oldestGame === Number.MAX_SAFE_INTEGER) {
+      oldestGame = 0;
     }
     this.playerStats.firstGame = oldestGame;
     this.playerStats.lastGame = newestGame;

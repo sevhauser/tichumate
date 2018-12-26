@@ -29,10 +29,21 @@ export default {
   },
   computed: {
     infos() {
+      // Pretty ugly method, I know
+      // TODO: refactor to simplify and adjust to multiple teams
       const result = [];
       let teamName = '';
       let teamScore = 0;
       let difference = 0;
+      let winner = 0;
+      this.game.teams.forEach((el, index) => {
+        if (el.win) {
+          winner = index;
+        }
+      });
+      if (winner !== 0) {
+        result.push(this.$t('game.hasWon', {team: this.game.teams[winner].name}));
+      }
       if (this.game.teams[0].score > this.game.teams[1].score) {
         difference = this.game.teams[0].score - this.game.teams[1].score;
         teamName = this.game.teams[0].name;
@@ -41,21 +52,27 @@ export default {
         difference = this.game.teams[1].score - this.game.teams[0].score;
         teamName = this.game.teams[1].name;
         teamScore = this.game.teams[1].score;
+      } else {
+        teamScore = this.game.teams[0].score;
       }
+      let points = 0;
       if (difference === 0) {
-        result.push('Both teams are on par');
+        result.push(this.$t('game.itsATie'));
         if (this.game.winConditions.type === 1) {
-          result.push(`${this.game.winConditions.value - teamScore} Points to win`);
+          points = this.game.winConditions.value - teamScore;
         } else {
-          result.push(`${this.game.winConditions.value - difference} Points to win`);
+          points = this.game.winConditions.value - difference;
         }
       } else {
-        result.push(`${teamName} is ${difference} points ahead`);
+        result.push(this.$tc('game.pointsAhead', difference, { team: teamName }));
         if (this.game.winConditions.type === 1) {
-          result.push(`${this.game.winConditions.value - teamScore} Points to win`);
+          points = this.game.winConditions.value - teamScore;
         } else {
-          result.push(`${this.game.winConditions.value - difference} Points to win`);
+          points = this.game.winConditions.value - difference;
         }
+      }
+      if (winner === 0) {
+        result.push(this.$tc('game.pointsToWin', points));
       }
       return result;
     },

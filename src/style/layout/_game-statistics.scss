@@ -52,7 +52,9 @@
     align-items: center;
     border-left: 0.07rem solid rgba($white, 0.2);
     color: $whiteLight;
+    font-family: $fontFamilySlab;
     &:first-child {
+      font-family: $fontFamilyRegular;
       border-left: none;
     }
   }

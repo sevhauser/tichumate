@@ -37,6 +37,10 @@ export default {
     delete: 'Delete Game',
     deleteQuery: 'Do you want to delete this game?',
     winConditions: 'Winning Conditions',
+    itsATie: 'It\'s a tie!',
+    hasWon: '{team} has won the game!',
+    pointsToWin: '1 Point to win | {count} Points to win',
+    pointsAhead: '{team} is 1 Point ahead | {team} is {count} Points ahead',
   },
   round: {
     round: 'Round | Rounds',

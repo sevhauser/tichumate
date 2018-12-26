@@ -12,15 +12,8 @@
           <IconStatistics/>
         </TichuIcon>
      </AppBarRow>
-     <div class="game-scores game-scores--double">
-        <TichuScore
-        :team="game.teams[0]"
-        />
-        <div class="game-scores__spacer">:</div>
-        <TichuScore
-        :team="game.teams[1]"
-       />
-     </div>
+     <TichuScores
+      :teams="game.teams"/>
      <GameScoreInfo
       :game="game"/>
     </div>
@@ -42,7 +35,7 @@
 
 <script>
 import AppBarRow from '@/components/ui/AppBarRow.vue';
-import TichuScore from '@/components/ui/TichuScore.vue';
+import TichuScores from '@/components/ui/TichuScores.vue';
 import TichuRound from '@/components/ui/TichuRound.vue';
 import TichuIcon from '@/components/icons/TichuIcon.vue';
 import IconBack from '@/components/icons/IconBack.vue';
@@ -132,7 +125,7 @@ export default {
     IconOptions,
     IconStatistics,
     AppBarRow,
-    TichuScore,
+    TichuScores,
     TichuRound,
     TFab,
     DialogText,

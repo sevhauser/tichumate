@@ -21,10 +21,10 @@
         </div>
       </div>
       <div class="list-subtitle">{{ $tc('settings.about', 2).toUpperCase() }}</div>
-      <div class="settings-entry settings-entry--text" v-html="$t('settings.aboutText')"></div>
+      <SettingsAbout/>
       <div class="list-subtitle">{{ $tc('settings.openSource', 2).toUpperCase() }}</div>
-      <div class="settings-entry settings-entry--text" v-html="$t('settings.openSourceText')"></div>
-      <div class="list-subtitle">App Info</div>
+      <SettingsOpenSource/>
+      <div class="list-subtitle">APP INFO</div>
       <div class="settings-entry settings-entry--text">
         <p>Version: {{ appVersion }}</p>
       </div>
@@ -38,6 +38,8 @@ import IconBack from '@/components/icons/IconBack.vue';
 import IconEdit from '@/components/icons/IconEdit.vue';
 import AppBar from '@/components/ui/AppBar.vue';
 import DialogSelect from '@/components/dialog/DialogSelect.vue';
+import SettingsAbout from '@/components/texts/SettingsAbout.vue';
+import SettingsOpenSource from '@/components/texts/SettingsOpenSource.vue';
 import EventBus from '@/EventBus';
 import { mapState, mapGetters } from 'vuex';
 import { SettingKey } from '@/db/entity/setting';
@@ -97,6 +99,8 @@ export default {
     IconBack,
     IconEdit,
     DialogSelect,
+    SettingsAbout,
+    SettingsOpenSource,
   },
 };
 </script>

@@ -10,17 +10,9 @@
           <IconConfirm/>
         </TichuIcon>
       </AppBarRow>
-      <div class="round-scores round-scores--double">
-        <TichuRoundScore
-          :team="round.game.teams[0]"
-          :score="round.scores[0]"
-        />
-        <div class="game-scores__spacer">:</div>
-        <TichuRoundScore
-          :team="round.game.teams[1]"
-          :score="round.scores[1]"
-        />
-      </div>
+      <TichuRoundScores
+        :teams="round.game.teams"
+        :scores="round.scores"/>
     </div>
     <div class="round-inputs">
       <InputWrapper :title="$t('round.cardPoints')">
@@ -73,7 +65,7 @@
 
 <script>
 import AppBarRow from '@/components/ui/AppBarRow.vue';
-import TichuRoundScore from '@/components/ui/TichuRoundScore.vue';
+import TichuRoundScores from '@/components/ui/TichuRoundScores.vue';
 import InputSlider from '@/components/form/InputSlider.vue';
 import InputWrapper from '@/components/form/InputWrapper.vue';
 import InputTichu from '@/components/form/InputTichu.vue';
@@ -195,7 +187,7 @@ export default {
     TichuIcon,
     IconConfirm,
     IconCancel,
-    TichuRoundScore,
+    TichuRoundScores,
     InputSlider,
     InputWrapper,
     InputTichu,
