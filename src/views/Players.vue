@@ -1,5 +1,6 @@
 <template>
   <div class="players">
+    <ListEmpty v-if="playerList.length === 0"/>
     <template
       v-for="(entry, index) in playerList">
       <PlayerListEntry
@@ -27,6 +28,7 @@
 import EditPlayerDialog from '@/components/dialog/EditPlayerDialog.vue';
 import DialogConfirm from '@/components/dialog/DialogConfirm.vue';
 import PlayerListEntry from '@/components/ui/PlayerListEntry.vue';
+import ListEmpty from '@/components/ui/ListEmpty.vue';
 import TFabExtended from '@/components/ui/TFabExtended.vue';
 import EventBus from '@/EventBus';
 import { mapGetters } from 'vuex';
@@ -105,6 +107,7 @@ export default {
     DialogConfirm,
     PlayerListEntry,
     TFabExtended,
+    ListEmpty,
   },
 };
 </script>

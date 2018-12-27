@@ -14,7 +14,7 @@ export class TichuDB extends Dexie {
   public settings: Dexie.Table<ISetting, number>;
 
   constructor() {
-    super('TichuDB_dev');
+    super('TichuMateDB');
 
     this.version(1).stores({
       tichus: '++id, active',

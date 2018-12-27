@@ -15,6 +15,7 @@ export default {
     point: 'Point | Points',
     name: 'Name',
     next: 'Next',
+    listEmpty: 'Oh no! No entries, yet.',
   },
   player: {
     player: 'Player | Players',
@@ -90,18 +91,7 @@ export default {
     changeLanguage: 'Change Language',
     language: 'Language',
     about: 'About TichuMate',
-    aboutText: `<p>Made with ❤ by <a href='https://github.com/sevhauser' target='_BLANK'>Severin Hauser</a>.<br/>
-    This app is open source, you can view - or fork it - it on <a href='https://github.com/sevhauser/tichumate' target='_BLANK'>GitHub</a>.</p>
-    <p>If there's a bug, or a feature you'd like, submit an <a href='https://github.com/sevhauser/tichumate/issues' target='_BLANK'>issue</a> on GitHub, or write me an <a href='mailto:tiltedch@gmail.com'>E-Mail</a>.</p>`,
     openSource: 'Open Source',
-    openSourceText: `<p>TichuMate has been built with the following awesome tools:<p>
-    <ul>
-    <li><a href='https://vuejs.org' target='_BLANK'>Vue</a></li>
-    <li><a href='https://www.typescriptlang.org' target='_BLANK'>TypeScript</a></li>
-    <li><a href='https://dexie.org' target='_BLANK'>Dexie</a></li>
-    <li><a href='https://kazupon.github.io/vue-i18n/' target='_BLANK'>vue-1i8n</a></li>
-    <li><a href='https://vue-chartjs.org' target='_BLANK'>vue-chartjs</a> (uses <a href='https://chartjs.org/' target='_BLANK'>chart.js</a>)</li>
-    </ul>`,
   },
   languages: {
     language: 'Language | Languages',

@@ -18,6 +18,7 @@
       :game="game"/>
     </div>
     <div class="game-rounds" v-if="loaded">
+      <ListEmpty v-if="rounds.length === 0"/>
       <TichuRound
         v-for="(round, index) in rounds"
         :key="round.id"
@@ -44,6 +45,7 @@ import IconStatistics from '@/components/icons/IconStatistics.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
 import TFab from '@/components/ui/TFab.vue';
 import GameScoreInfo from '@/components/ui/GameScoreInfo.vue';
+import ListEmpty from '@/components/ui/ListEmpty.vue';
 import DialogText from '@/components/dialog/DialogText.vue';
 import DialogConfirm from '@/components/dialog/DialogConfirm.vue';
 import EventBus from '@/EventBus';
@@ -131,6 +133,7 @@ export default {
     DialogText,
     DialogConfirm,
     GameScoreInfo,
+    ListEmpty,
   },
 };
 </script>

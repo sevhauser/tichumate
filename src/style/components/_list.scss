@@ -89,3 +89,27 @@
     }
   }
 }
+
+.list-entry-empty {
+  height: $rowHeightLargeRem;
+  width: 100%;
+  margin-top: $rowHeightLargeRem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+  &__content {
+    text-align: center;
+    > div:first-child {
+      font-size: $fsLarge;
+      color: $whiteLight;
+      padding-bottom: 1rem;
+    }
+    > div:last-child {
+      font-size: $fsRegular;
+      color: $whiteLighter;
+      text-transform: uppercase;
+      letter-spacing: 0.01em;
+    }
+  }
+}
