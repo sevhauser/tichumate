@@ -43,3 +43,20 @@
     margin-bottom: 0;
   }
 }
+
+.tdialog-select-player-option {
+  display: grid;
+  grid-template-columns: 3rem auto;
+  height: $rowHeightSmallRem;
+  &.selected {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    &:nth-child(2) {
+      justify-content: flex-start;
+    }
+  }
+}

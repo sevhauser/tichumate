@@ -1,16 +1,15 @@
 <template>
   <div class="players">
+    <ListEmpty v-if="playerList.length === 0"/>
     <template
       v-for="(entry, index) in playerList">
-      <div class="list-entry"
+      <PlayerListEntry
         v-if="entry.type === 'entry'"
         :key="index"
-        @click="editPlayer(entry.content.id)">
-        <div class="list-entry__content">
-          {{entry.content.emoji}}
-          {{entry.content.name}}
-        </div>
-      </div>
+        :player="entry.content"
+        @click="playerClicked(entry.content.id)"
+        @edit-player="editPlayer(entry.content.id)"
+        @delete-player="deletePlayer(entry.content.id)"/>
       <div class="list-subtitle"
         :key="index"
         v-else>
@@ -27,6 +26,9 @@
 
 <script>
 import EditPlayerDialog from '@/components/dialog/EditPlayerDialog.vue';
+import DialogConfirm from '@/components/dialog/DialogConfirm.vue';
+import PlayerListEntry from '@/components/ui/PlayerListEntry.vue';
+import ListEmpty from '@/components/ui/ListEmpty.vue';
 import TFabExtended from '@/components/ui/TFabExtended.vue';
 import EventBus from '@/EventBus';
 import { mapGetters } from 'vuex';
@@ -53,7 +55,7 @@ export default {
   methods: {
     createPlayer() {
       this.$modal.show(EditPlayerDialog, {
-        title: 'Create Player',
+        title: this.$t('player.create'),
         closeOnSave: true,
         bus: EventBus,
         identifier: 'players-edit-player',
@@ -64,7 +66,7 @@ export default {
     },
     editPlayer(playerId) {
       this.$modal.show(EditPlayerDialog, {
-        title: 'Edit Player',
+        title: this.$t('player.edit'),
         playerId,
         closeOnSave: true,
         bus: EventBus,
@@ -74,10 +76,38 @@ export default {
         height: 'auto',
       });
     },
+    deletePlayer(playerId) {
+      this.$modal.show(DialogConfirm, {
+        content: this.$t('player.deleteQuery'),
+        closeOnSave: true,
+        bus: EventBus,
+        attributes: { playerId },
+        identifier: 'players-delete-player',
+      }, {
+        width: '280',
+        height: 'auto',
+      });
+    },
+    playerClicked(playerId) {
+      this.$router.push(`/player/${playerId}`);
+    },
+    handleDeletePlayer(playerId) {
+      this.$store.dispatch('players/deletePlayer', playerId).then(() => {
+        this.$store.dispatch('games/loadGames');
+      });
+    },
+  },
+  mounted() {
+    EventBus.$on('players-delete-player-confirm', (msg) => {
+      this.handleDeletePlayer(msg.playerId);
+    });
   },
   components: {
     EditPlayerDialog,
+    DialogConfirm,
+    PlayerListEntry,
     TFabExtended,
+    ListEmpty,
   },
 };
 </script>

@@ -1,36 +1,69 @@
-.tichu-score {
-  position: relative;
+.tichu-scores {
   display: flex;
   flex-direction: column;
-  &__team,
-  &__players,
-  &__score {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+.tichu-scores-row {
+  display: grid;
+  &--teams,
+  &--players {
+    min-height: $rowHeightSmallerRem;
   }
-  &__team,
-  &__players {
-    > span {
-      text-align: center;
-      font-size: $fsRegular;
-      color: $whiteLight;
-    }
-    height: $rowHeightSmaller;
-  }
-  &__score {
+  &--scores {
     line-height: 1.4em;
-    > span {
-      font-size: $fsLarge;
-      font-family: $fontFamilySlab;
+  }
+}
+
+@for $i from 2 through 8 {
+  .tichu-scores--count#{$i} {
+    .tichu-scores-row {
+      grid-template-columns: repeat($i, 1fr);
     }
   }
-  &__crown {
-    font-size: 1.2rem;
-    position: absolute;
-    right: 0;
-    top: 0;
-    opacity: 0.7;
-    transform: rotate(33deg);
+}
+
+.tichu-scores-team,
+.tichu-scores-score {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tichu-scores-team {
+  > span {
+    text-align: center;
+    font-size: $fsRegular;
+    color: $whiteLight;
+  }
+}
+
+.tichu-scores-score {
+  > span {
+    text-align: center;
+    font-size: $fsLarge;
+    font-family: $fontFamilySlab;
+  }
+}
+
+.tichu-scores-players {
+  display: block;
+  width: 100%;
+  height: $rowHeightSmallerRem;
+  overflow: hidden;
+  &__content {
+    height: 100%;
+    transition: transform 200ms ease-in-out;
+  }
+}
+
+.tichu-scores-players-line {
+  width: 100%;
+  height: $rowHeightSmallerRem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  > span {
+    font-size: $fsRegular;
+    color: $whiteLight;
   }
 }

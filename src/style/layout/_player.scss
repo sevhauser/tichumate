@@ -1,0 +1,49 @@
+.player {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-content {
+  @extend .list;
+  flex-grow: 1;
+}
+
+.player-list-entry {
+  text-align: center;
+}
+
+.player-stats {
+  display: flex;
+  flex-direction: column;
+}
+
+.player-stats-row {
+  display: grid;
+  &--double {
+    grid-template-columns: 1fr 1fr;
+  }
+  &--triple {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+
+.player-stats-entry {
+  display: grid;
+  grid-template-rows: $rowHeightTinyRem $rowHeightSmallerRem;
+  > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    &:nth-child(1) {
+      font-size: $fsRegular;
+      color: $whiteLighter;
+      justify-content: flex-end;
+    }
+    &:nth-child(2) {
+      font-family: $fontFamilySlab;
+      font-size: $fsMedium;
+      color: $white;
+    }
+  }
+}

@@ -10,17 +10,9 @@
           <IconConfirm/>
         </TichuIcon>
       </AppBarRow>
-      <div class="round-scores round-scores--double">
-        <TichuRoundScore
-          :team="round.game.teams[0]"
-          :score="round.scores[0]"
-        />
-        <div class="game-scores__spacer">:</div>
-        <TichuRoundScore
-          :team="round.game.teams[1]"
-          :score="round.scores[1]"
-        />
-      </div>
+      <TichuRoundScores
+        :teams="round.game.teams"
+        :scores="round.scores"/>
     </div>
     <div class="round-inputs">
       <InputWrapper :title="$t('round.cardPoints')">
@@ -42,7 +34,18 @@
           v-for="tichu in tichus"
             :key="tichu.id"
             :title="tichu.lang ? $t(tichu.lang) : tichu.title"
-            wrapContent="col2">
+            wrapContent="col2"
+            :slotsUsed="true">
+            <InputCallPlayer
+              :callState="round.scores[0].callState(tichu.id)"
+              :value="round.scores[0].callPlayerState(tichu.id)"
+              @click="playerCallClicked(0, tichu.id)"
+              slot="left"/>
+            <InputCallPlayer
+              :callState="round.scores[1].callState(tichu.id)"
+              :value="round.scores[1].callPlayerState(tichu.id)"
+              @click="playerCallClicked(1, tichu.id)"
+              slot="right"/>
           <InputTichu
             :value="round.scores[0].callState(tichu.id)"
             @t-change="callChange(0, tichu.id, $event)"/>
@@ -62,15 +65,18 @@
 
 <script>
 import AppBarRow from '@/components/ui/AppBarRow.vue';
-import TichuRoundScore from '@/components/ui/TichuRoundScore.vue';
+import TichuRoundScores from '@/components/ui/TichuRoundScores.vue';
 import InputSlider from '@/components/form/InputSlider.vue';
 import InputWrapper from '@/components/form/InputWrapper.vue';
 import InputTichu from '@/components/form/InputTichu.vue';
 import InputWin from '@/components/form/InputWin.vue';
 import InputNumber from '@/components/form/InputNumber.vue';
+import InputCallPlayer from '@/components/form/InputCallPlayer.vue';
 import TichuIcon from '@/components/icons/TichuIcon.vue';
 import IconCancel from '@/components/icons/IconCancel.vue';
 import IconConfirm from '@/components/icons/IconConfirm.vue';
+import DialogSelectPlayer from '@/components/dialog/DialogSelectPlayer.vue';
+import EventBus from '@/EventBus';
 import { mapState, mapGetters } from 'vuex';
 
 export default {
@@ -96,11 +102,9 @@ export default {
     viewTitle() {
       return this.roundId === 0 ? this.$t('round.new') : this.$t('round.edit');
     },
-    ...mapState({
-      tichus: (state) => state.tichus.tichus,
-    }),
     ...mapGetters({
       tichu: 'tichus/tichu',
+      tichus: 'tichus/activeTichus',
     }),
   },
   watch: {
@@ -121,6 +125,27 @@ export default {
     callChange(index, tichuId, value) {
       const tichu = this.tichu(tichuId);
       this.round.scores[index].callChange(tichuId, value, tichu.value);
+    },
+    callPlayer(index, tichuId, value) {
+      this.round.scores[index].callPlayer(tichuId, value);
+    },
+    playerCallClicked(index, tichuId) {
+      const score = this.round.scores[index];
+      this.$modal.show(
+        DialogSelectPlayer,
+        {
+          bus: EventBus,
+          title: this.$tc('player.select', 1),
+          identifier: 'round-select-player-call',
+          players: this.round.game.getTeam(score.teamId).playerIds,
+          selected: score.callPlayerState(tichuId),
+          attributes: {
+            index,
+            tichuId,
+          },
+        },
+        { width: '280', height: 'auto' },
+      );
     },
     saveRound() {
       this.save().then(() => {
@@ -150,6 +175,9 @@ export default {
     },
   },
   created() {
+    EventBus.$on('round-select-player-call-selected', (msg) => {
+      this.callPlayer(msg.attributes.index, msg.attributes.tichuId, msg.result);
+    });
     this.init().then(() => {
       this.loaded = true;
     });
@@ -159,12 +187,14 @@ export default {
     TichuIcon,
     IconConfirm,
     IconCancel,
-    TichuRoundScore,
+    TichuRoundScores,
     InputSlider,
     InputWrapper,
     InputTichu,
     InputWin,
     InputNumber,
+    InputCallPlayer,
+    DialogSelectPlayer,
   },
 };
 </script>

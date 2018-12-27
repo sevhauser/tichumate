@@ -12,17 +12,13 @@
           <IconStatistics/>
         </TichuIcon>
      </AppBarRow>
-     <div class="game-scores game-scores--double">
-        <TichuScore
-        :team="game.teams[0]"
-        />
-        <div class="game-scores__spacer">:</div>
-        <TichuScore
-        :team="game.teams[1]"
-       />
-     </div>
+     <TichuScores
+      :teams="game.teams"/>
+     <GameScoreInfo
+      :game="game"/>
     </div>
     <div class="game-rounds" v-if="loaded">
+      <ListEmpty v-if="rounds.length === 0"/>
       <TichuRound
         v-for="(round, index) in rounds"
         :key="round.id"
@@ -40,7 +36,7 @@
 
 <script>
 import AppBarRow from '@/components/ui/AppBarRow.vue';
-import TichuScore from '@/components/ui/TichuScore.vue';
+import TichuScores from '@/components/ui/TichuScores.vue';
 import TichuRound from '@/components/ui/TichuRound.vue';
 import TichuIcon from '@/components/icons/TichuIcon.vue';
 import IconBack from '@/components/icons/IconBack.vue';
@@ -48,6 +44,8 @@ import IconOptions from '@/components/icons/IconOptions.vue';
 import IconStatistics from '@/components/icons/IconStatistics.vue';
 import IconPlus from '@/components/icons/IconPlus.vue';
 import TFab from '@/components/ui/TFab.vue';
+import GameScoreInfo from '@/components/ui/GameScoreInfo.vue';
+import ListEmpty from '@/components/ui/ListEmpty.vue';
 import DialogText from '@/components/dialog/DialogText.vue';
 import DialogConfirm from '@/components/dialog/DialogConfirm.vue';
 import EventBus from '@/EventBus';
@@ -129,11 +127,13 @@ export default {
     IconOptions,
     IconStatistics,
     AppBarRow,
-    TichuScore,
+    TichuScores,
     TichuRound,
     TFab,
     DialogText,
     DialogConfirm,
+    GameScoreInfo,
+    ListEmpty,
   },
 };
 </script>

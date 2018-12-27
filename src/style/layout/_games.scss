@@ -2,12 +2,13 @@
   @extend .list;
   flex-grow: 1;
   padding-bottom: 5em;
-  .games-fab {
-    position: fixed;
-    left: 50%;
-    transform: translate(-50%);
-    bottom: $paddingNormal;
-  }
+}
+
+.games-fab {
+  position: fixed;
+  left: 50%;
+  transform: translate(-50%);
+  bottom: $paddingNormal;
 }
 
 .game-entry {
@@ -25,32 +26,29 @@
     }
   }
 }
-.game-entry-score {
+
+.game-entry-score-team,
+.game-entry-score-players {
+  min-height: 1.5em;
   display: flex;
-  flex-direction: column;
-  &__team,
-  &__players {
-    flex-grow: 1;
-    min-height: 1.5em;
-    display: flex;
-    justify-content: center;
-    text-align: center;
-    font-size: $fsRegularSmall;
-    color: $whiteLight;
-  }
-  &__team {
-    align-items: flex-end;
-  }
-  &__score {
-    flex-grow: 0;
-    height: 2.25em;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: $fontFamilySlab;
-    font-size: $fsMedium;
-  }
-  &__players {
-    align-items: flex-start;
-  }
+  justify-content: center;
+  text-align: center;
+  font-size: $fsRegularSmall;
+  color: $whiteLight;
+}
+.game-entry-score-team {
+  align-items: flex-end;
+}
+
+.game-entry-score-players {
+  align-items: flex-start;
+}
+
+.game-entry-score-score {
+  height: 2.25em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: $fontFamilySlab;
+  font-size: $fsMedium;
 }

@@ -39,6 +39,22 @@ export class GameRepo extends BaseRepo<Game> {
     return games;
   }
 
+  public async getFromPlayer(playerId: number): Promise<Game[]> {
+    const result = new Array<Game>();
+    const teams = await repos.teams.getFromPlayer(playerId);
+    for (const team of teams) {
+      if (team.id) {
+        const games = await this.table.where('teamIds').equals(team.id).toArray();
+        for (const gameValue of games) {
+          if (gameValue.id) {
+            result.push(await this.get(gameValue.id));
+          }
+        }
+      }
+    }
+    return result;
+  }
+
   public async update(game: Game, recalculate: boolean = true): Promise<Game> {
     if (game.teams.length > 0) {
       for (const team of game.teams) {

@@ -1,5 +1,6 @@
 <template>
   <div class="games">
+    <ListEmpty v-if="gamesList.length === 0"/>
     <template v-for="(entry, index) in gamesList">
       <GameListEntry
         v-if="entry.type === 'entry'"
@@ -25,6 +26,7 @@
 <script>
 import TFabExtended from '@/components/ui/TFabExtended.vue';
 import GameListEntry from '@/components/ui/GameListEntry.vue';
+import ListEmpty from '@/components/ui/ListEmpty.vue';
 import DialogConfirm from '@/components/dialog/DialogConfirm.vue';
 import EventBus from '@/EventBus';
 import { mapGetters } from 'vuex';
@@ -91,6 +93,7 @@ export default {
     TFabExtended,
     GameListEntry,
     DialogConfirm,
+    ListEmpty,
   },
 };
 </script>

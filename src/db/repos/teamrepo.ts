@@ -19,4 +19,26 @@ export class TeamRepo extends BaseRepo<Team> {
     }
     return result;
   }
+
+  public async getFromPlayer(playerId: number): Promise<Team[]> {
+    const result = new Array<Team>();
+    const teams = await this.table.where('playerIds').equals(playerId).toArray();
+    for (const teamValue of teams) {
+      if (teamValue.id) {
+        result.push(await this.get(teamValue.id));
+      }
+    }
+    return result;
+  }
+
+  public async removePlayerFromTeams(playerId: number): Promise<void> {
+    const teams = await this.table.where('playerIds').equals(playerId).toArray();
+    for (const teamVals of teams) {
+      if (teamVals.id) {
+        const team = await this.get(teamVals.id);
+        team.removePlayer(playerId);
+        await this.update(team);
+      }
+    }
+  }
 }

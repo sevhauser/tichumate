@@ -37,3 +37,25 @@
   left: 50%;
   transform: translateX(-50%);
 }
+
+.game-score-info {
+  background-color: rgba(#000000, 0.3);
+  width: 100%;
+  height: $rowHeightTinyRem;
+  overflow: hidden;
+  &__content {
+    height: 100%;
+    transition: transform 200ms ease-in-out;
+  }
+}
+
+.game-score-info-line {
+  width: 100%;
+  height: $rowHeightTinyRem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $whiteLighter;
+  font-size: $fsRegularSmall;
+  text-transform: uppercase;
+}

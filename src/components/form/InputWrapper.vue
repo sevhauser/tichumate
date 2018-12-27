@@ -1,6 +1,16 @@
 <template>
   <div class="tinput tinput-custom">
-    <div class="tinput__title">{{ title }}</div>
+
+    <div class="tinput-top" v-if="slotsUsed">
+      <div class="tinput-top__left">
+        <slot name="left"/>
+      </div>
+      <div class="tinput__title">{{ title }}</div>
+      <div class="tinput-top__right">
+        <slot name="right"/>
+      </div>
+    </div>
+    <div v-else class="tinput__title">{{ title }}</div>
     <div class="tinput__content"
       :class="contentClass">
       <slot/>
@@ -11,6 +21,10 @@
 <script>
 export default {
   props: {
+    slotsUsed: {
+      type: Boolean,
+      default: false,
+    },
     title: {
       type: String,
       default: '',

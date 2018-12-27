@@ -2,7 +2,7 @@
   <TDialog :title="title">
     <div class="tdialog-content-item">
       <InputText
-        placeholder="Player Name"
+        :placeholder="$t('player.name')"
         v-model="result.name"/>
     </div>
     <div class="tdialog-content-item">

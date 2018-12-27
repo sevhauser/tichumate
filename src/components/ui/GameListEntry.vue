@@ -3,21 +3,29 @@
     @slide-edit="$emit('edit-game')"
     @slide-delete="$emit('delete-game')">
     <div class="game-entry" @click="$emit('click')">
-      <div class="game-entry-row"
-        :class="[ `game-entry-row--count${game.teams.length}`]">
-        <div class="game-entry-score"
+      <div class="game-entry-row game-entry-row--count2">
+        <div
+          v-for="team in game.teams"
+          :key="team.id"
+          class="game-entry-score-team">
+          {{ team.name }}
+        </div>
+      </div>
+      <div class="game-entry-row game-entry-row--count2">
+        <div
+          v-for="team in game.teams"
+          :key="team.id"
+          class="game-entry-score-score"
+          :class="{ 'txt-yellow': team.win }">
+          {{ team.score }}
+        </div>
+      </div>
+      <div class="game-entry-row game-entry-row--count2">
+        <div class="game-entry-score-players"
           v-for="team in game.teams"
           :key="team.id">
-          <div class="game-entry-score__team">{{ team.name }}</div>
-          <div
-            class="game-entry-score__score"
-            :class="{ 'txt-yellow': team.win }">
-            {{ team.score }}
-          </div>
-          <div class="game-entry-score__players">
             {{ playerNames(team.playerIds) }}
           </div>
-        </div>
       </div>
     </div>
   </RowSlider>

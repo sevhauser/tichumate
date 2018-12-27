@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { Player } from '@/db/entity';
+
 export default {
   name: 'InputTichu',
   data: () => ({
