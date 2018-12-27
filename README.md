@@ -5,7 +5,7 @@ TichuMate is an app to track games of [Tichu](https://en.wikipedia.org/wiki/Tich
 ## Features
 - **Simple UI** The views have been designed, so that adding and changing games and rounds can be made with as few taps as possible.
 - **Statistics** Everyone loves statistics! Graphs and tables for games and players.
-- **Players** Create a player for each of your Tichu buddies. Finally, you can settle the dispute who's the better Tichu player, because you can there are stats for each player. And you can assign each player an emoji - because emojis, duh.
+- **Players** Create a player for each of your Tichu buddies. Finally, you can settle the dispute who's the better Tichu player, because there are stats for each player. And you can assign each player an emoji - because emojis, duh.
 - **Customization** Some like to spice up their Tichu games with their own rules and Tichus. An example is the 'Blind Tichu': it is worth 400 points - but you have to call it without looking at a single card. Or, you want to change the winning conditions: as short game to 500 points, or the team with 500 points ahead wins. TichuMate has you covered! Add your own custom Tichus, or define the winning conditions for each game.
 
 There are more features planned! Have a look at the [project](https://github.com/sevhauser/tichumate/projects/1) sections.
