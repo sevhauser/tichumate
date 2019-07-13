@@ -13,7 +13,7 @@ export const getters: GetterTree<GamesState, RootState> = {
             if (lhs.date === rhs.date) {
                 return 0;
             }
-            if (lhs.date < rhs.date) {
+            if (lhs.date > rhs.date) {
                 return -1;
             }
             return 1;
