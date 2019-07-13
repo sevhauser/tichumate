@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/tichumate/precache-manifest.ed5c0c755db27afc61115b3e9350b090.js"
+  "/tichumate/precache-manifest.385ee57a6c177f3ccd15dbec7f85810b.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "tichumate"});
